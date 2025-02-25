@@ -1365,6 +1365,11 @@ Una vez que conocemos los fundamentos de una API REST y hemos desarrollado una A
 
 Para interactuar con una base de datos MySQL en PHP, utilizaremos la extensión `mysqli`. `mysqli` es una extensión de PHP que proporciona una interfaz para interactuar con bases de datos MySQL. Permite realizar operaciones CRUD (Create, Read, Update, Delete) en la base de datos y manejar errores de forma eficiente. A continuación se detallan los pasos a seguir para interactuar con una base de datos MySQL utilizando `mysqli` y se muestran los objetos y métodos más comunes para realizar operaciones en la base de datos.
 
+[TIP]
+====
+Para una información más detallada sobre la clase `mysqli`, sus métodos y cómo interactuar con una base de datos MySQL, se recomienda consultar el https://ualmtorres.github.io/Tutorialmysqli/[Tutorial sobre la clase mysqli en PHP para interactuar con bases de datos MySQL].
+====
+
 1. Conexión a la base de datos: Para conectarse a una base de datos MySQL, se debe crear una instancia de la clase `mysqli` y proporcionar la información de conexión, como el nombre de host, el nombre de usuario, la contraseña y el nombre de la base de datos. La conexión queda establecida una vez que se crea la instancia de la clase `mysqli`. A continuación se muestra un ejemplo de cómo conectarse a una base de datos MySQL utilizando `mysqli`.
 +
 [source,php]
