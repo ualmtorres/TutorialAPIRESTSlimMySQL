@@ -8,6 +8,8 @@ Codificación, idioma, tabla de contenidos, tipo de documento
 :toc-title: Tabla de contenidos
 :doctype: book
 :linkattrs:
+:icons: font
+:source-highlighter: highlightjs
 
 ////
 Nombre y título del trabajo
