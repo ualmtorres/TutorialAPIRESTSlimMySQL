@@ -41,7 +41,10 @@ COLOCA A CONTINUACION LOS OBJETIVOS
 
 [TIP]
 ====
-Disponible el https://github.com/ualmtorres/sample-rest-api[repositorio, window=_blank] usado en este tutorial.
+Disponibles:
+
+* el https://github.com/ualmtorres/sample-rest-api[repositorio, window=_blank] usado en este tutorial.
+* https://github.com/ualmtorres/slim-base-rest-api.gitπ[repositorio, window=_blank] con proyecto base. Sólo contiene la configuración de Slim y una ruta de ejemplo.
 ====
 
 // Entrar en modo numerado de apartados
@@ -109,7 +112,7 @@ image::images/xampp-index.png[]
 
 XAMPP es una plataforma que incluye Apache como servidor web. Este servidor web se encarga de recibir las peticiones HTTP de los clientes (p.e. navegadores web) y devolver las respuestas adecuadas. Apache utiliza el protocolo HTTP para comunicarse con los clientes y el protocolo TCP/IP para comunicarse con el servidor. Como nuestro servidor web es local, se utiliza la dirección `http://localhost` para acceder al servidor web. Así, introduciremos esta dirección en el navegador web para acceder a nuestro servidor web local.
 
-De forma nativa, Apache puede servidor contenido estático, como archivos HTML, CSS, imágenes, etc. Sin embargo, también puede servir contenido dinámico, como páginas PHP, a través de módulos que se cargan en el servidor. Con contenido dinámico se hace referencia a contenido que se genera en tiempo de ejecución, en lugar de estar almacenado en un archivo estático. Por ejemplo, una página PHP puede mostrar la fecha y hora actuales, el contenido de una base de datos, etc, sin necesidad de que el contenido que se presente esté almacenado en un archivo estático. La figura siguiente ilustra el código PHP para mostrar la hora actual, el código HTML generado (que se puede ver en las opciones para desarrolladores del navegador) y el resultado tal y como se visualiza en el navegador. Obsérvese como se genera de forma dinámica el contenido de la página. Esta tarea es realizada en el servidor combinando el contenido HTML e interpretando el código PHP línea a línea.
+De forma nativa, Apache puede servir contenido estático, como archivos HTML, CSS, imágenes, etc. Sin embargo, también puede servir contenido dinámico, como páginas PHP, a través de módulos que se cargan en el servidor. Con contenido dinámico se hace referencia a contenido que se genera en tiempo de ejecución, en lugar de estar almacenado en un archivo estático. Por ejemplo, una página PHP puede mostrar la fecha y hora actuales, el contenido de una base de datos, etc, sin necesidad de que el contenido que se presente esté almacenado en un archivo estático. La figura siguiente ilustra el código PHP para mostrar la hora actual, el código HTML generado (que se puede ver en las opciones para desarrolladores del navegador) y el resultado tal y como se visualiza en el navegador. Obsérvese como se genera de forma dinámica el contenido de la página. Esta tarea es realizada en el servidor combinando el contenido HTML e interpretando el código PHP línea a línea.
 
 image::images/php-time.png[]
 
@@ -134,7 +137,7 @@ image::images/hello-world.png[]
 
 [NOTE]
 ====
-Si el archivo `hello-world.php` se almacena en una subcarpeta de `htdocs`, como  `tutorialphp` (p.e. `C:\xampp\htdocs\tutorialphp\hello-world.php`), se deberá acceder a la dirección `http://localhost/tutorialphp/hello-world.php` para ver el mensaje. Es decir, las subcarpetas de `htdocs` se reflejan en la URL.
+Si el archivo `hello.php` se almacena en una subcarpeta de `htdocs`, como  `tutorialphp` (p.e. `C:\xampp\htdocs\tutorialphp\hello.php`), se deberá acceder a la dirección `http://localhost/tutorialphp/hello.php` para ver el mensaje. Es decir, las subcarpetas de `htdocs` se reflejan en la URL.
 ====
 
 ### Instalación de Composer
@@ -211,16 +214,13 @@ Dentro de la carpeta raíz del proyecto, crear un archivo `composer.json` con el
     "nyholm/psr7-server": "^1.1",
     "laminas/laminas-diactoros": "^3.3"
   },
-  "scripts": {
-    "server": "php -S localhost:8000 -t public"
-  },
   "config": {
     "process-timeout": 0
   }
 }
 ```
 
-Tras crear el archivo, abrir una terminal en la carpeta raíz del proyecto y ejecutar `composer install`. Composer descargará las dependencias necesarias para Slim y las instalará en la carpeta `vendor`. Como consecuecia, Slim Framework quedara instalado en el proyecto.
+Tras crear el archivo, abrir una terminal en la carpeta raíz del proyecto y ejecutar `composer install`. Composer descargará las dependencias necesarias para Slim y las instalará en la carpeta `vendor`. Como consecuencia, Slim Framework quedara instalado en el proyecto.
 
 #### Configuración de Apache en la aplicación
 
@@ -279,19 +279,12 @@ $app->get('/', function (RequestInterface $request, ResponseInterface $response,
     return $response;
 });
 
-// Set the base path of the application
-$app->setBasePath('/sample-rest-api'); <2>
-
 // Run the application
 $app->run();
 ```
 <1> Endpoint de prueba que devuelve un mensaje JSON.
-<2> Ruta base de la API.
 
-[IMPORTANT]
-====
-En este archivo no debemos olvidar cambiar la ruta base de la API, en este caso `/sample-rest-api`, por la que vayamos a utilizar en nuestro proyecto (`$app->setBasePath('/sample-rest-api');`). Tras realizar estos cambios, al acceder a la ruta `http://localhost/sample-rest-api` desde un navegador se debería ver un mensaje JSON con el contenido `{"status":200,"message":"Hello from Slim"}`.
-====
+Tras realizar estos cambios, al acceder a la ruta `http://localhost/sample-rest-api` desde un navegador se debería ver un mensaje JSON con el contenido `{"status":200,"message":"Hello from Slim"}`, donde `sample-rest-api` es el nombre de la carpeta donde se encuentra el proyecto. Si se ha cambiado el puerto de Apache o el nombre de la carpeta, se deberá acceder a la ruta correspondiente. Por ejemplo, si se ha cambiado el puerto a 8080 y el nombre de la carpeta es `mi-api`, se deberá acceder a la ruta `http://localhost:8080/mi-api`.
 
 Podemos probar esta ruta accediendo a la dirección `http://localhost/sample-rest-api` desde un navegador. Si se muestra el mensaje JSON, significa que Slim está funcionando correctamente y que la configuración de Apache es correcta. La figura siguiente muestra el mensaje JSON que se muestra al acceder a la dirección `http://localhost/sample-rest-api`.
 
@@ -639,14 +632,14 @@ print_r($mayoresDe30);
 
 ### Formularios en PHP
 
-Los formularios son una parte fundamental de las aplicaciones web, ya que permiten a los usuarios introducir datos que serán enviados al servidor para su procesamiento. En PHP, los datos de un formulario se envían al servidor a través del método `POST` o `GET`. El método `POST` envía los datos al servidor de forma no visible, mientras que el método `GET` envía los datos al servidor a través de la URL. En general, se utiliza el método `POST` para enviar datos sensibles, como contraseñas, y el método `GET` para enviar datos no sensibles. A continuación se muestra un ejemplo de URL que envía datos a través del método `GET`:
+Los formularios son una parte fundamental de las aplicaciones web, ya que permiten a los usuarios introducir datos que serán enviados al servidor para su procesamiento. En PHP, los datos de un formulario se envían al servidor a través del método `POST` o `GET`. El método `POST` envía los datos al servidor de forma no visible, mientras que el método `GET` envía los datos al servidor a través de la URL. En general, se utiliza el método `POST` para enviar datos sensibles, como contraseñas, y el método `GET` para enviar datos no sensibles. No obstante, ya veremos más adelante que el método `POST` es el más utilizado para enviar datos a una API RESTful, como en la petición de creación de un nuevo recurso. A continuación se muestra un ejemplo de URL que envía datos a través del método `GET`:
 
 [source]
 ----
 http://localhost/procesar.php?nombre=María&edad=25
 ----
 
-En este caso, se envían los datos `nombre=María` y `edad=25` al archivo `procesar.php` a través del método `GET`. En PHP, los datos enviados a través del método `GET` se almacenan en un array asociativo llamado `$_GET`. Por ejemplo, para acceder al valor del parámetro `nombre`, se puede utilizar `$_GET['nombre']`.
+En este caso se envían los datos `nombre=María` y `edad=25` al archivo `procesar.php` a través del método `GET`. En PHP, los datos enviados a través del método `GET` se almacenan en un array asociativo llamado `$_GET`. Por ejemplo, para acceder al valor del parámetro `nombre`, se puede utilizar `$_GET['nombre']`. `nombre` y `edad` son lo que se conoce como *parámetros de consulta* (_query params_) y se envían al servidor a través de la URL. Los parámetros de consulta son pares clave-valor que se envían al servidor a través de la URL y se utilizan para enviar datos al servidor. En este caso los parámetros de consulta son `nombre` y `edad`, y sus valores son `María` y `25`, respectivamente.
 
 A continuación se muestra un ejemplo de un formulario HTML que envía datos a través del método `POST`. El formulario contiene dos campos, uno para el nombre y otro para la edad. Llamaremos a este formulario `formulario.html`. Este formulario enviará los datos al archivo `procesar.php` a través del método `POST`.
 
@@ -659,7 +652,7 @@ A continuación se muestra un ejemplo de un formulario HTML que envía datos a t
 </form>
 ----
 
-En este caso, los datos del formulario se envían al archivo `procesar.php` a través del método `POST`. En PHP, los datos enviados a través del método `POST` se almacenan en un array asociativo llamado `$_POST`. Por ejemplo, para acceder al valor del parámetro `nombre`, se puede utilizar `$_POST['nombre']`.
+En este caso los datos del formulario se envían al archivo `procesar.php` a través del método `POST`. En PHP, los datos enviados a través del método `POST` se almacenan en un array asociativo llamado `$_POST`. Por ejemplo, para acceder al valor del parámetro `nombre`, se puede utilizar `$_POST['nombre']`.
 
 A continuación se muestra un ejemplo de cómo procesar los datos enviados por el formulario en PHP. Llamaremos a este archivo `procesar.php`.
 
@@ -674,7 +667,7 @@ echo "Edad: " . $edad . "<br>";
 ?>
 ----
 
-En este ejemplo, se accede a los datos del formulario a través del array `$_POST` y se muestran en el navegador utilizando la función `echo`.
+En este ejemplo se accede a los datos del formulario a través del array `$_POST` y se muestran en el navegador utilizando la función `echo`.
 
 [NOTE]
 ====
@@ -721,7 +714,7 @@ Desde el punto de vista de la seguridad, la API puede ser protegida mediante aut
 
 ### Métodos HTTP (GET, POST, PUT, DELETE)
 
-Los métodos HTTP son utilizados para realizar operaciones en recursos en una API RESTful. Los métodos más comunes son:
+Los métodos HTTP son utilizados para realizar operaciones en recursos en una API RESTful. Los métodos más comunes y sus principales usos son:
 
 * `GET`: Recupera información de un recurso específico.
 * `POST`: Crea un nuevo recurso.
@@ -788,8 +781,8 @@ A continuación se explican algunos aspectos importantes sobre cómo especificar
 
 Los parámetros en la URL se utilizan para identificar recursos específicos o para pasar información adicional a la API. Los parámetros pueden ser parte de la ruta de la URL o pueden ser parámetros de consulta.
 
-* **Parámetros en la ruta de la URL**: Se utilizan para identificar recursos específicos. Por ejemplo, en la URL `http://api.example.com/product/1`, el parámetro `1` identifica al usuario con ID 1. En la especificación de una API, esto se puede representar como `GET /product/{id}`.
-* **Parámetros de consulta**: También como `QueryParams`, se utilizan para pasar información adicional a la API. Por ejemplo, en la URL `http://api.example.com/product?name=Product 1`, el parámetro de consulta `name=Product 1` se utiliza para buscar productos con el nombre "Product 1". En la especificación de una API, esto se puede representar como `GET /product?name=<name>`.
+* **Parámetros en la ruta de la URL**: Se utilizan para identificar recursos específicos. Por ejemplo, en la URL `http://api.example.com/product/1`, el parámetro `1` identifica al prducto con ID 1. En la especificación de una API, esto se puede representar como `GET /product/{id}`, donde se omite el nombre del servidor y sólo se especifica la ruta relativa al servidor. 
+* **Parámetros de consulta**: También conocidos como `QueryParams`, se utilizan para pasar información adicional a la API. Por ejemplo, en la URL `http://api.example.com/product?name=Product 1`, el parámetro de consulta `name=Product 1` se utiliza para buscar productos con el nombre "Product 1". En la especificación de una API, esto se puede representar como `GET /product?name=<name>`.
 
 #### Envío de datos en peticiones POST y PUT
 
@@ -808,10 +801,10 @@ image::images/postman-post.png[]
 
 [NOTE]
 ====
-La especificación del cuerpo se realiza en la pestaña `Body` de Postman. En este caso, se ha seleccionado el formato `raw` y se ha introducido el cuerpo en formato JSON seleccionando `JSON` en el menú desplegable.
+La especificación del cuerpo se realiza en la pestaña `Body` de Postman. En este caso se ha seleccionado el formato `raw` y se ha introducido el cuerpo en formato JSON seleccionando `JSON` en el menú desplegable.
 ====
 
-En este ejemplo, se envían los datos de un usuario en formato JSON en el cuerpo de la solicitud POST. En la especificación de una API, esto se puede representar como `POST /product`.
+En este ejemplo se envían los datos de un producto en formato JSON en el cuerpo de la solicitud POST. En la especificación de una API, esto se puede representar como `POST /product`.
 
 En el caso de una petición `PUT`, se enviarían los datos de la misma forma, pero se utilizaría el método `PUT` en lugar de `POST`. En la especificación de una API, esto se puede representar como `PUT /product/{id}`.
 
@@ -827,7 +820,7 @@ Las respuestas de una API RESTful pueden ser en formato JSON, XML u otros format
 * `200 OK`: La solicitud se ha completado correctamente.
 * `201 Created`: El recurso se ha creado correctamente. Se utiliza en respuestas a peticiones `POST`.
 * `400 Bad Request`: La solicitud no se ha podido procesar debido a un error en la solicitud.
-* `404 Not Found`: El recurso solicitado no se ha encontrado. Esto debería entenderse como una llamada a un endpoint que no existe, y no como un recurso que no se ha encontrado (p.e. un usuario que no existe). En el caso de solicitar un recurso que no se encuentre, se debería devolver un código `200 OK` con un cuerpo vacío.
+* `404 Not Found`: El recurso solicitado no se ha encontrado. Esto debería entenderse como una llamada a un endpoint que no existe, y no como un recurso que no se ha encontrado (p.e. un producto que no existe). En el caso de solicitar un recurso que no se encuentre, se debería devolver un código `200 OK` con un cuerpo vacío.
 
 #### Ejemplo de endpoints de una API RESTful
 
@@ -858,7 +851,7 @@ Las cabeceras son importantes para asegurar que la solicitud y la respuesta sean
 
 ## Desarrollo de una API RESTful básica en PHP con Slim Framework
 
-En este apartado se explicará cómo desarrollar una API RESTful en PHP utilizando el microframework Slim. Como se ha comentado anteriormente, Slim es un microframework PHP que permite crear aplicaciones web rápidas y sencillas. En este caso, utilizaremos Slim para desarrollar una API RESTful que permita realizar operaciones CRUD (Create, Read, Update, Delete) en una lista de productos. Comenzaremos inicializando un proyecto Slim para pasar posteriormente a la creación de la API. La API la crearemos en dos pasos. Primero, en esta sección crearemos una API REST básica, para familiarizarnos con Slim y los conceptos básicos de una API RESTful. Posteriormente, en la sección siguiente crearemos una API REST que ya sí realice operaciones contra una base de datos.
+En este apartado se explicará cómo desarrollar una API RESTful en PHP utilizando el microframework Slim. Como se ha comentado anteriormente, Slim es un microframework PHP que permite crear aplicaciones web rápidas y sencillas. En este caso utilizaremos Slim para desarrollar una API RESTful que permita realizar operaciones CRUD (Create, Read, Update, Delete) en una lista de productos. Comenzaremos inicializando un proyecto Slim para pasar posteriormente a la creación de la API. La API la crearemos en dos pasos. Primero, en esta sección crearemos una API REST básica, para familiarizarnos con Slim y los conceptos básicos de una API RESTful. Posteriormente, en la sección siguiente crearemos una API REST que ya sí realice operaciones contra una base de datos.
 
 ### Inicialización del proyecto
 
@@ -919,7 +912,7 @@ RewriteRule ^ index.php [QSA,L]
 
 ### Creación de una API REST básica
 
-Para realizar un aprendizaje progresivo de Slim, se comenzará con una API REST básica que permita realizar operaciones CRUD en una lista de productos, pero sin interactuar con una base de datos. Esto nos permitirá familiarizarnos con Slim y los conceptos básicos de una API RESTful, como los métodos HTTP, los endpoints, los formatos de intercambio de datos, el uso de cabeceras y parámetros, etc. En este caso, se simulará una base de datos utilizando un array de productos en memoria. Tal y como comentamos anteriormente, la API tendrá los siguientes endpoints:
+Para realizar un aprendizaje progresivo de Slim, se comenzará con una API REST básica que permita realizar operaciones CRUD en una lista de productos, pero sin interactuar con una base de datos. Esto nos permitirá familiarizarnos con Slim y los conceptos básicos de una API RESTful, como los métodos HTTP, los endpoints, los formatos de intercambio de datos, el uso de cabeceras y parámetros, etc. En este caso se simulará una base de datos utilizando un array de productos en memoria. Tal y como comentamos anteriormente, la API tendrá los siguientes endpoints:
 
 * `GET /`: Devuelve un mensaje de bienvenida.
 * `GET /product`: Devuelve una lista de productos o filtra productos por nombre.
@@ -949,9 +942,6 @@ use Slim\Factory\AppFactory;
 
 // Crear la aplicación
 $app = AppFactory::create();
-
-// Configurar la ruta base
-$app->setBasePath('/sample-rest-api');
 
 // Configurar Slim para procesar datos JSON
 $app->addBodyParsingMiddleware();
@@ -1002,7 +992,7 @@ Este array asociativo simula una base de datos de productos para los propósitos
 
 ### Endpoint básico para devolver un mensaje
 
-Para hacer la primera prueba en la API, comenzaremos creando un endpoint básico que devuelva un mensaje. Se trata de que responda con un JSON sencillo cuando se invoque la URL base de la API (`/`). En este caso, definimos un endpoint básico que devuelve un mensaje https://gist.github.com/ualmtorres/ddaf3b386aa9f87025284d51ce1bfe39[(código del ejemplo), window=_blank]:
+Para hacer la primera prueba en la API, comenzaremos creando un endpoint básico que devuelva un mensaje. Se trata de que responda con un JSON sencillo cuando se invoque la URL base de la API (`/`). En este caso definimos un endpoint básico que devuelve un mensaje https://gist.github.com/ualmtorres/ddaf3b386aa9f87025284d51ce1bfe39[(código del ejemplo), window=_blank]:
 
 [source,php]
 ----
@@ -1021,7 +1011,7 @@ $app->get('/', function (RequestInterface $request, ResponseInterface $response,
     return createJsonResponse($response, $data);
 });
 ----
-<1> En este bloque de código, se define un endpoint que responde a las solicitudes GET en la ruta base (`/`) con un mensaje JSON. Es lo que se conoce como un controlador de ruta.
+<1> En este bloque de código, se define un endpoint que responde a las solicitudes GET en la ruta base (`/`) con un mensaje JSON. Este bloque de código es lo que se conoce como un controlador de ruta.
 
 Este endpoint responde a las solicitudes GET en la ruta base (`/`) con un mensaje JSON. La figura siguiente muestra el resultado de acceder al endpoint básico desde Postman.
 
@@ -1029,7 +1019,7 @@ Este endpoint responde a las solicitudes GET en la ruta base (`/`) con un mensaj
 ****
 En una llamada a un endpoint, el cliente envía una solicitud HTTP al servidor usando un objeto `Request` y el servidor responde con un objeto `Response`. En Slim, los objetos `Request` y `Response` se pasan como argumentos a los controladores de ruta. En el objeto `Request` se envían los datos de la solicitud, como los parámetros de la URL, los parámetros de consulta, los datos del cuerpo, las cabeceras, etc. En el objeto `Response` se envían los datos de la respuesta, como el código de estado, los datos del cuerpo, las cabeceras, etc.
 
-Por otro lado, los controladores de ruta son funciones que se ejecutan cuando se accede a un endpoint específico. En este caso, el controlador de ruta es una función anónima que toma un objeto `Request`, un objeto `Response` y un array de argumentos y devuelve un objeto `Response` con los datos de la respuesta. En el controlador de ruta, se procesan los datos de la solicitud, se realizan las operaciones necesarias y se devuelven los datos de la respuesta utilizando la función auxiliar `createJsonResponse`. También es importante la especificación del verbo HTTP que se va a utilizar en la ruta, en este caso `GET`.
+Por otro lado, los controladores de ruta son funciones que se ejecutan cuando se accede a un endpoint específico. En este caso el controlador de ruta es una función anónima que toma un objeto `Request`, un objeto `Response` y un array de argumentos, y devuelve un objeto `Response` con los datos de la respuesta. En el controlador de ruta se procesan los datos de la solicitud, se realizan las operaciones necesarias y se devuelven los datos de la respuesta utilizando la función auxiliar `createJsonResponse`. También es importante la especificación del verbo HTTP que se va a utilizar en la ruta, en este caso `GET`.
 ****
 
 [TIP]
@@ -1073,7 +1063,7 @@ image::images/slim-api-products.png[]
 
 .Mejorando el endpoint para devolver una lista de productos o filtrar productos por nombre
 ****
-En el código anterior, se devuelve la lista completa de productos. Sin embargo, sería útil poder filtrar los productos por nombre. Para ello, se puede utilizar un parámetro de consulta en la URL. Por ejemplo, para filtrar los productos por nombre, se puede utilizar la URL `http://localhost/sample-rest-api/product?name=Product 1`. En este caso, se devolverán los productos cuyo nombre coincida con "Product 1". Para implementar esta funcionalidad, se puede modificar el controlador de ruta para comprobar si se ha proporcionado un parámetro de consulta `name` y, si es así, filtrar los productos por nombre. Para capturar los parámetros de consulta en Slim, se puede utilizar el método `getQueryParams()`. Este método devuelve un array asociativo con los parámetros de consulta de la solicitud. A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/3d44a78d9df479ffd72467ee71864af1[(código del ejemplo), window=_blank].:
+En el código anterior, se devuelve la lista completa de productos. Sin embargo, sería útil poder filtrar los productos por nombre. Para ello, se puede utilizar un parámetro de consulta en la URL. Por ejemplo, para filtrar los productos por nombre, se puede utilizar la URL `http://localhost/sample-rest-api/product?name=Product 1`. En este caso se devolverán los productos cuyo nombre coincida con "Product 1". Para implementar esta funcionalidad, se puede modificar el controlador de ruta para comprobar si se ha proporcionado un parámetro de consulta `name` y, si es así, filtrar los productos por nombre. Para capturar los parámetros de consulta en Slim, se puede utilizar el método `getQueryParams()`. Este método devuelve un array asociativo con los parámetros de consulta de la solicitud. A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/3d44a78d9df479ffd72467ee71864af1[(código del ejemplo), window=_blank].:
 
 [source,php]
 ----
@@ -1164,7 +1154,7 @@ image::images/slim-api-product.png[]
 
 ### Endpoint para crear un nuevo producto
 
-Continuamos con el desarrollo de la API añadiendo un endpoint que crea un nuevo producto. Normalmente, la creación de recursos en una API REST se realiza mediante solicitudes POST dirigidas al endpoint raíz del recurso. En este caso, el endpoint responde a las solicitudes POST en la ruta `/product`. Además, la solicitud no incorpora un identificador en la URL, ya que el identificador se generará automáticamente por el servidor. Lo que sí lleva la solicitud son los datos del producto a crear, que se envían en el cuerpo de la solicitud. El servidor recibe la solicitud y crea un nuevo producto con los datos proporcionados en el cuerpo de la solicitud. Como respuesta, lo habitual es devolver el producto creado con un código de estado `201 Created`. (Por motivos didácticos la respuesta aquí también incluye la lista completa de productos.) A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/3e6364254c2ac578b24e97a2640bc9c3[(código del ejemplo), window=_blank]:
+Continuamos con el desarrollo de la API añadiendo un endpoint que crea un nuevo producto. Normalmente, la creación de recursos en una API REST se realiza mediante solicitudes POST dirigidas al endpoint raíz del recurso. En este caso el endpoint responde a las solicitudes POST en la ruta `/product`. Además, la solicitud no incorpora un identificador en la URL, ya que el identificador se generará automáticamente por el servidor. Lo que sí lleva la solicitud son los datos del producto a crear, que se envían en el cuerpo de la solicitud. El servidor recibe la solicitud y crea un nuevo producto con los datos proporcionados en el cuerpo de la solicitud. Como respuesta, lo habitual es devolver el producto creado y un código de estado `201 Created`. (Por motivos didácticos la respuesta aquí también incluye la lista completa de productos.) A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/3e6364254c2ac578b24e97a2640bc9c3[(código del ejemplo), window=_blank]:
 
 [source,php]
 ----
@@ -1209,7 +1199,7 @@ image::images/slim-api-product-create.png[]
 
 ### Endpoint para actualizar un producto existente
 
-Continuamos con el desarrollo de la API añadiendo un endpoint que actualiza un producto existente. Normalmente, la actualización de recursos en una API REST se realiza mediante solicitudes PUT dirigidas a un endpoint específico del recurso indicando el ID del recurso a actualizar. En este caso, el endpoint responde a las solicitudes PUT en la ruta `/product/{id}` y actualiza el producto con el ID especificado con los datos proporcionados en el cuerpo de la solicitud. El servidor recibe la solicitud, busca el producto por ID, actualiza los datos del producto con los datos proporcionados en el cuerpo de la solicitud y devuelve el producto actualizado con un código de estado `200 OK`. (Por motivos didácticos la respuesta aquí también incluye la lista completa de productos.) A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/6cb09b98f168f6e0b26799a67266f120[(código del ejemplo), window=_blank]:
+Continuamos con el desarrollo de la API añadiendo un endpoint que actualiza un producto existente. Normalmente, la actualización de recursos en una API REST se realiza mediante solicitudes PUT dirigidas a un endpoint específico del recurso indicando el ID del recurso a actualizar. En este caso el endpoint responde a las solicitudes PUT en la ruta `/product/{id}` y actualiza el producto con el ID especificado con los datos proporcionados en el cuerpo de la solicitud. El servidor recibe la solicitud, busca el producto por ID, actualiza los datos del producto con los datos proporcionados en el cuerpo de la solicitud y devuelve el producto actualizado con un código de estado `200 OK`. (Por motivos didácticos la respuesta aquí también incluye la lista completa de productos.) A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/6cb09b98f168f6e0b26799a67266f120[(código del ejemplo), window=_blank]:
 
 [source,php]
 ----
@@ -1268,7 +1258,7 @@ image::images/slim-api-product-update.png[]
 
 ### Endpoint para eliminar un producto
 
-Continuamos con el desarrollo de la API añadiendo un endpoint que elimina un producto. Normalmente, la eliminación de recursos en una API REST se realiza mediante solicitudes DELETE dirigidas a un endpoint específico del recurso indicando el ID del recurso a eliminar. En este caso, el endpoint responde a las solicitudes DELETE en la ruta `/product/{id}` y elimina el producto con el ID especificado. El servidor recibe la solicitud, busca el producto por ID, elimina el producto y devuelve un mensaje con un código de estado `200 OK` si el producto se ha eliminado correctamente o un código de estado `204 No Content` si el producto no se ha encontrado. (Por motivos didácticos la respuesta aquí también incluye la lista completa de productos.) A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/1d3e60773a57471470405f2ac0edfe18[(código del ejemplo), window=_blank]:
+Continuamos con el desarrollo de la API añadiendo un endpoint que elimina un producto. Normalmente, la eliminación de recursos en una API REST se realiza mediante solicitudes DELETE dirigidas a un endpoint específico del recurso indicando el ID del recurso a eliminar. En este caso el endpoint responde a las solicitudes DELETE en la ruta `/product/{id}` y elimina el producto con el ID especificado. El servidor recibe la solicitud, busca el producto por ID, elimina el producto y devuelve un mensaje con un código de estado `200 OK` si el producto se ha eliminado correctamente o un código de estado `204 No Content` si el producto no se ha encontrado. (Por motivos didácticos la respuesta aquí también incluye la lista completa de productos.) A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/1d3e60773a57471470405f2ac0edfe18[(código del ejemplo), window=_blank]:
 
 [source,php]
 ----
@@ -1321,7 +1311,7 @@ image::images/slim-api-product-delete.png[]
 
 ### Incerceptando peticiones a endpoints inexistentes
 
-En Slim, se puede interceptar las peticiones a endpoints inexistentes utilizando un middleware que se ejecuta después de que se hayan procesado todas las rutas. En este caso, interceptaremos las peticiones a endpoints inexistentes y devolveremos un mensaje de error con un código de estado `404 Not Found`. A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/ba34d38de5ac72366ecb949a28b778a6[(código del ejemplo), window=_blank]:
+En Slim, se puede interceptar las peticiones a endpoints inexistentes utilizando un middleware que se ejecuta después de que se hayan procesado todas las rutas. En este caso interceptaremos las peticiones a endpoints inexistentes y devolveremos un mensaje de error con un código de estado `404 Not Found`. A continuación se muestra cómo se puede hacer esto https://gist.github.com/ualmtorres/ba34d38de5ac72366ecb949a28b778a6[(código del ejemplo), window=_blank]:
 
 [source,php]
 ----
@@ -1361,7 +1351,7 @@ Ahora se pueden probar los endpoints de la API en un navegador o con una herrami
 
 ## Desarrollo de una API REST con Slim Framework y MySQL
 
-Una vez que conocemos los fundamentos de una API REST y hemos desarrollado una API REST básica con Slim Framework, vamos a dar un paso más y desarrollar una API REST que interactúe con una base de datos MySQL. En este caso, utilizaremos una base de datos MySQL para almacenar y gestionar una lista de productos. A continuación se detallan los pasos a seguir para crear esta API.
+Una vez que conocemos los fundamentos de una API REST y hemos desarrollado una API REST básica con Slim Framework, vamos a dar un paso más y desarrollar una API REST que interactúe con una base de datos MySQL. En este caso utilizaremos una base de datos MySQL para almacenar y gestionar una lista de productos. A continuación se detallan los pasos a seguir para crear esta API.
 
 ### `mysqli`, una extensión de PHP para interactuar con MySQL
 
@@ -1387,7 +1377,7 @@ if ($mysqli->connect_error) {
     die('Connection failed: ' . $mysqli->connect_error);
 }
 ----
-En este ejemplo, se crea una conexión a una base de datos MySQL llamada `sample_api` en el host `localhost` utilizando el nombre de usuario `root` y sin contraseña. Si la conexión falla, se muestra un mensaje de error.
+En este ejemplo se crea una conexión a una base de datos MySQL llamada `sample_api` en el host `localhost` utilizando el nombre de usuario `root` y sin contraseña. Si la conexión falla, se muestra un mensaje de error.
 
 2. Consultas a la base de datos: Una vez establecida la conexión a la base de datos, se pueden realizar consultas para recuperar, insertar, actualizar o eliminar datos. Las consultas se realizan utilizando el método `mysqli::query`.
 +
@@ -1401,7 +1391,7 @@ if ($result->num_rows > 0) {
     }
 }
 ----
-En este ejemplo, se realiza una consulta para recuperar todos los productos de la tabla `product`. Si se encuentran productos, se procesan los datos utilizando el método `mysqli_result::fetch_assoc`. `mysql_query` permite la ejecución de consultas SQL en la base de datos. Si la consulta SQL es un `SELECT`, `mysql_query` devolverá un recurso de resultado que puede ser utilizado para recuperar los datos de la consulta. En cambio, si la consulta SQL es un `INSERT`, `UPDATE` o `DELETE`, `mysql_query` devolverá `true` o `false` dependiendo del éxito de la operación.
+En este ejemplo se realiza una consulta para recuperar todos los productos de la tabla `product`. Si se encuentran productos, se procesan los datos utilizando el método `mysqli_result::fetch_assoc`. `mysql_query` permite la ejecución de consultas SQL en la base de datos. Si la consulta SQL es un `SELECT`, `mysql_query` devolverá un recurso de resultado que puede ser utilizado para recuperar los datos de la consulta. En cambio, si la consulta SQL es un `INSERT`, `UPDATE` o `DELETE`, `mysql_query` devolverá `true` o `false` dependiendo del éxito de la operación.
 
 3. Recuperación de datos: Una vez realizada la consulta, se pueden recuperar los datos utilizando métodos como `mysqli_result::fetch_assoc`, `mysqli_result::fetch_row` o `mysqli_result::fetch_array`. Estos métodos permiten obtener los datos de la consulta en forma de array asociativo, array indexado o array combinado, respectivamente. A continuación se muestra un ejemplo de cómo recuperar los datos de una consulta utilizando `mysqli_result::fetch_assoc`.
 +
@@ -1411,7 +1401,7 @@ while ($row = $result->fetch_assoc()) {
     echo 'ID: ' . $row['id'] . ', Name: ' . $row['name'];
 }
 ----
-En este ejemplo, se recorren los resultados de la consulta y se muestran los campos `id` y `name` de cada fila.
+En este ejemplo se recorren los resultados de la consulta y se muestran los campos `id` y `name` de cada fila.
 
 4. Inserción de datos: Para insertar datos en la base de datos, se puede utilizar el método `mysqli::query` con una consulta SQL de inserción. A continuación se muestra un ejemplo de cómo insertar un nuevo producto en la tabla `product`.
 +
@@ -1428,9 +1418,9 @@ if ($mysqli->query($query) === TRUE) {
     echo 'Error al insertar el producto: ' . $mysqli->error;
 }
 ----
-En este ejemplo, se inserta un nuevo producto con el nombre `Product 1` y el precio `10.99` en la tabla `product`. Si la inserción es exitosa, se muestra un mensaje de éxito. En caso de error, se muestra un mensaje de error con la descripción del error.
+En este ejemplo se inserta un nuevo producto con el nombre `Product 1` y el precio `10.99` en la tabla `product`. Si la inserción es correcta, se muestra un mensaje de éxito. En caso de error, se muestra un mensaje de error con la descripción del error.
 
-5. La actualización y la eliminación de datos se realizan de forma similar a la inserción de datos. Para actualizar datos, se utiliza una consulta SQL de actualización (`UPDATE`) con el método `mysqli::query`. Para eliminar datos, se utiliza una consulta SQL de eliminación (`DELETE`) con el método `mysqli::query`.
+5. La actualización y la eliminación de datos se realizan de forma similar a la inserción de datos. Para actualizar datos se utiliza una consulta SQL de actualización (`UPDATE`) con el método `mysqli::query`. Para eliminar datos se utiliza una consulta SQL de eliminación (`DELETE`) con el método `mysqli::query`.
 
 .Soluciones al problema de la inyección de SQL
 ****
@@ -1448,14 +1438,12 @@ $query->bind_param('sd', $name, $price);
 // Ejecutar la consulta preparada
 $query->execute();
 ----
-En este ejemplo, se crea una consulta preparada con los marcadores de posición `?` para los valores `name` y `price`. Los valores se enlazan a los marcadores de posición utilizando el método `mysqli_stmt::bind_param`. Finalmente, se ejecuta la consulta preparada utilizando el método `mysqli_stmt::execute`. Esto evita la inyección de SQL y protege la base de datos de ataques maliciosos.
+En este ejemplo se crea una consulta preparada con los marcadores de posición `?` para los valores `name` y `price`. Los valores se enlazan a los marcadores de posición utilizando el método `mysqli_stmt::bind_param`. Finalmente, se ejecuta la consulta preparada utilizando el método `mysqli_stmt::execute`. Esto evita la inyección de SQL y protege la base de datos de ataques maliciosos.
 
 [NOTE]
 ====
 En `bind_param` se especifica el tipo de datos de los valores y los valores a enlazar. Ejemplos de tipos de datos son `s` para cadenas, `i` para enteros y `d` para números de punto flotante. En el ejemplo anterior, `sd` indica que el primer valor es una cadena y el segundo valor es un número de punto flotante.
 ====
-
-Por tanto, en lugar de especificar el código de la consulta SQL directamente en la llamada a `mysqli::query`, se puede utilizar una consulta preparada para evitar la inyección de SQL y garantizar la seguridad de la base de datos. En la consulta preparada, se utilizan marcadores de posición (`?`) para los valores y se enlazan los valores a los marcadores de posición utilizando el método `mysqli_stmt::bind_param`. Esto ayuda a prevenir la inyección de SQL y garantiza la seguridad de la base de datos.
 ****
 
 .Sanitización de datos
@@ -1480,7 +1468,7 @@ $query->bind_param('sd', $name, $price);
 // Ejecutar la consulta preparada
 $query->execute();
 ----
-En este ejemplo, se utiliza el método `mysqli::real_escape_string` para eliminar los caracteres especiales del nombre del producto y se convierte el precio a un número de punto flotante utilizando `(float)`. Esto ayuda a prevenir la inyección de SQL y garantiza que los datos sean válidos antes de insertarlos en la base de datos.
+En este ejemplo se utiliza el método `mysqli::real_escape_string` para eliminar los caracteres especiales del nombre del producto y se convierte el precio a un número de punto flotante utilizando `(float)`. Esto ayuda a prevenir la inyección de SQL y garantiza que los datos sean válidos antes de insertarlos en la base de datos.
 
 * Validación de datos: Se validan los datos para asegurarse de que cumplen con ciertos criterios (p.e. longitud, formato).
 +
@@ -1501,7 +1489,7 @@ if (strlen($name) > 0 && is_numeric($price)) {
     echo 'Datos no válidos';
 }
 ----
-En este ejemplo, se valida que el nombre del producto tenga una longitud mayor que cero y que el precio sea un número. Si los datos no son válidos, se muestra un mensaje de error. Esto ayuda a garantizar que los datos sean válidos antes de insertarlos en la base de datos.
+En este ejemplo se valida que el nombre del producto tenga una longitud mayor que cero y que el precio sea un número. Si los datos no son válidos, se muestra un mensaje de error. Esto ayuda a garantizar que los datos sean válidos antes de insertarlos en la base de datos.
 
 * Filtrado de datos: Se filtran los datos para eliminar caracteres no deseados o no válidos.
 +
@@ -1521,7 +1509,7 @@ $query->bind_param('sd', $name, $price);
 // Ejecutar la consulta preparada
 $query->execute();
 ----
-En este ejemplo, se utiliza la función `filter_var` con los filtros `FILTER_SANITIZE_STRING` y `FILTER_SANITIZE_NUMBER_FLOAT` para filtrar el nombre del producto y el precio. Esto ayuda a eliminar caracteres no deseados y garantizar que los datos sean válidos antes de insertarlos en la base de datos.
+En este ejemplo se utiliza la función `filter_var` con los filtros `FILTER_SANITIZE_STRING` y `FILTER_SANITIZE_NUMBER_FLOAT` para filtrar el nombre del producto y el precio. Esto ayuda a eliminar caracteres no deseados y garantizar que los datos sean válidos antes de insertarlos en la base de datos.
 
 La sanitización de datos es una práctica recomendada para garantizar la integridad y seguridad de la base de datos.
 ****
@@ -1636,14 +1624,11 @@ use Slim\Factory\AppFactory;
 // Crear la aplicación
 $app = AppFactory::create();
 
-// Configurar la ruta base
-$app->setBasePath('/sample-rest-api'); <2>
-
 // Configurar Slim para procesar datos JSON
-$app->addBodyParsingMiddleware(); <3>
+$app->addBodyParsingMiddleware(); <2>
 
 // Helper function to handle the response 
-function createJsonResponse(ResponseInterface $response, array $data): ResponseInterface { <4>
+function createJsonResponse(ResponseInterface $response, array $data): ResponseInterface { <3>
     // Set the response content type
     $response = $response->withHeader('Content-Type', 'application/json; charset=utf-8');
 
@@ -1654,19 +1639,14 @@ function createJsonResponse(ResponseInterface $response, array $data): ResponseI
     return $response;
 }
 
-$host = 'localhost';
-$dbname = 'sample_api';
-$username = 'root';
-$password = '';
-
-$mysqli = new mysqli($host, $username, $password, $dbname); <5>
+$mysqli = new mysqli($host, $username, $password, $database); <4>
 
 if ($mysqli->connect_error) {
     die('Connection failed: ' . $mysqli->connect_error);
 }
 
 // Ruta para obtener todos los productos
-$app->get('/product', function (RequestInterface $request, ResponseInterface $response, array $args) { <6>
+$app->get('/product', function (RequestInterface $request, ResponseInterface $response, array $args) { <5>
     global $mysqli;
 
     // Consulta para obtener todos los productos
@@ -1704,18 +1684,18 @@ $app->get('/product/{id}', function (RequestInterface $request, ResponseInterfac
     global $mysqli;
 
     // Obtener el ID del producto
-    $productId = $args['id']; <7>
+    $productId = $args['id']; <6>
 
     // Consulta para obtener un producto por ID
-    $query = "SELECT * FROM product WHERE id = ?"; <8>
-    $stmt = $mysqli->prepare($query); <9>
-    $stmt->bind_param('i', $productId); <10>
-    $stmt->execute(); <11>
-    $result = $stmt->get_result(); <12>
+    $query = "SELECT * FROM product WHERE id = ?"; <7>
+    $stmt = $mysqli->prepare($query); <8>
+    $stmt->bind_param('i', $productId); <9>
+    $stmt->execute(); <10>
+    $result = $stmt->get_result(); <11>
 
     // Comprobar si hay un producto
     if ($result->num_rows > 0) {
-        $product = $result->fetch_assoc(); <13>
+        $product = $result->fetch_assoc(); <12>
 
         // Establecer los datos de la respuesta
         $data = [
@@ -1735,23 +1715,23 @@ $app->get('/product/{id}', function (RequestInterface $request, ResponseInterfac
 });
 
 // Ruta para crear un nuevo producto
-$app->post('/product', function (RequestInterface $request, ResponseInterface $response, array $args) { <14>
+$app->post('/product', function (RequestInterface $request, ResponseInterface $response, array $args) { <13>
     global $mysqli;
 
     // Obtener el cuerpo de la solicitud
-    $body = $request->getParsedBody(); <15>
+    $body = $request->getParsedBody(); <14>
 
     // Crear un nuevo producto
-    $name = $body['name']; <16>
+    $name = $body['name']; <15>
     $price = $body['price'];
     $createdAt = date('Y-m-d H:i:s');
     $updatedAt = date('Y-m-d H:i:s');
 
     // Consulta para crear un nuevo producto
-    $query = "INSERT INTO product (name, price, created_at, updated_at) VALUES (?, ?, ?, ?)"; <17>
-    $stmt = $mysqli->prepare($query); <18>
-    $stmt->bind_param('sdss', $name, $price, $createdAt, $updatedAt); <19>
-    $result = $stmt->execute(); <20>
+    $query = "INSERT INTO product (name, price, created_at, updated_at) VALUES (?, ?, ?, ?)"; <16>
+    $stmt = $mysqli->prepare($query); <17>
+    $stmt->bind_param('sdss', $name, $price, $createdAt, $updatedAt); <18>
+    $result = $stmt->execute(); <19>
 
     // Comprobar si se ha creado el producto
     if ($result) {
@@ -1795,7 +1775,7 @@ $app->post('/product', function (RequestInterface $request, ResponseInterface $r
 });
 
 // Ruta para actualizar un producto
-$app->put('/product/{id}', function (RequestInterface $request, ResponseInterface $response, array $args) { <21>
+$app->put('/product/{id}', function (RequestInterface $request, ResponseInterface $response, array $args) { <20>
     global $mysqli;
 
     // Obtener el ID del producto
@@ -1805,10 +1785,10 @@ $app->put('/product/{id}', function (RequestInterface $request, ResponseInterfac
     $body = $request->getParsedBody();
 
     // Comprobar si el producto existe
-    $query = "SELECT * FROM product WHERE id = ?"; <22>
-    $stmt = $mysqli->prepare($query); <23>
-    $stmt->bind_param('i', $productId); <24>
-    $stmt->execute(); <25>
+    $query = "SELECT * FROM product WHERE id = ?"; <21>
+    $stmt = $mysqli->prepare($query); <22>
+    $stmt->bind_param('i', $productId); <23>
+    $stmt->execute(); <24>
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
@@ -1821,10 +1801,10 @@ $app->put('/product/{id}', function (RequestInterface $request, ResponseInterfac
         $updatedAt = date('Y-m-d H:i:s');
 
         // Update the product. COALESCE is used to keep the existing value if the new value is NULL  
-        $query = "UPDATE product SET name = COALESCE(?, name), price = COALESCE(?, price), updated_at = ? WHERE id = ?"; <26>
+        $query = "UPDATE product SET name = COALESCE(?, name), price = COALESCE(?, price), updated_at = ? WHERE id = ?"; <25>
         $stmt = $mysqli->prepare($query);
         $stmt->bind_param('sdsi', $name, $price, $updatedAt, $productId);
-        $result = $stmt->execute(); <27>
+        $result = $stmt->execute(); <26>
 
         // Comprobar si se ha actualizado el producto
         if ($result) {
@@ -1872,25 +1852,25 @@ $app->put('/product/{id}', function (RequestInterface $request, ResponseInterfac
 });
 
 // Ruta para eliminar un producto
-$app->delete('/product/{id}', function (RequestInterface $request, ResponseInterface $response, array $args) { <28>
+$app->delete('/product/{id}', function (RequestInterface $request, ResponseInterface $response, array $args) { <27>
     global $mysqli;
 
     // Obtener el ID del producto
     $productId = $args['id'];
 
     // Comprobar si el producto existe
-    $query = "SELECT * FROM product WHERE id = ?"; <29>
-    $stmt = $mysqli->prepare($query); <30>
-    $stmt->bind_param('i', $productId); <31>
-    $stmt->execute(); <32>
+    $query = "SELECT * FROM product WHERE id = ?"; <28>
+    $stmt = $mysqli->prepare($query); <29>
+    $stmt->bind_param('i', $productId); <30>
+    $stmt->execute(); <31>
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         // Eliminar el producto
-        $query = "DELETE FROM product WHERE id = ?"; <33>
+        $query = "DELETE FROM product WHERE id = ?"; <32>
         $stmt = $mysqli->prepare($query);
         $stmt->bind_param('i', $productId);
-        $result = $stmt->execute(); <34>
+        $result = $stmt->execute(); <33>
 
         // Comprobar si se ha eliminado el producto
         if ($result) {
@@ -1919,7 +1899,7 @@ $app->delete('/product/{id}', function (RequestInterface $request, ResponseInter
 });
 
 // Interceptar todas las rutas no definidas 
-$app->any('{routes:.+}', function (RequestInterface $request, ResponseInterface $response) { <35>
+$app->any('{routes:.+}', function (RequestInterface $request, ResponseInterface $response) { <34>
     $data = [
         'status' => 404,
         'message' => 'Route not found'
@@ -1931,40 +1911,39 @@ $app->any('{routes:.+}', function (RequestInterface $request, ResponseInterface 
 $app->run();
 ----
 <1> Importar la conexión a la base de datos del archivo `db.php`.
-<2> Establecer la ruta base de la API.
-<3> Configurar Slim para procesar datos JSON.
-<4> Función auxiliar para manejar la respuesta de la API.
-<5> Establecer la conexión a la base de datos MySQL.
-<6> Endpoint para obtener todos los productos.
-<7> Acceder al parámetro de la URL `id`.
-<8> Consulta para obtener un producto por ID.
-<9> Preparar la consulta para obtener un producto por ID.
-<10> Enlazar el ID del producto a la consulta.
-<11> Ejecutar la consulta.
-<12> Obtener el resultado de la consulta.
-<13> Obtener el producto por ID.
-<14> Endpoint para crear un nuevo producto.
-<15> Obtener los datos del cuerpo de la solicitud.
-<16> Obtener el nombre y el precio del producto.
-<17> Consulta para crear un nuevo producto.
-<18> Preparar la consulta para crear un nuevo producto.
-<19> Enlazar los valores a la consulta.
-<20> Ejecutar la consulta para crear un nuevo producto.
-<21> Endpoint para actualizar un producto.
-<22> Consulta para comprobar si el producto existe.
-<23> Preparar la consulta para comprobar si el producto existe.
-<24> Enlazar el ID del producto a la consulta.
-<25> Ejecutar la consulta.
-<26> Consulta para actualizar un producto.
-<27> Ejecutar la consulta para actualizar un producto.
-<28> Endpoint para eliminar un producto.
-<29> Consulta para comprobar si el producto existe.
-<30> Preparar la consulta para comprobar si el producto existe.
-<31> Enlazar el ID del producto a la consulta.
-<32> Ejecutar la consulta.
-<33> Consulta para eliminar un producto.
-<34> Ejecutar la consulta para eliminar un producto.
-<35> Middleware para interceptar rutas no definidas.
+<2> Configurar Slim para procesar datos JSON.
+<3> Función auxiliar para manejar la respuesta de la API.
+<4> Establecer la conexión a la base de datos MySQL.
+<5> Endpoint para obtener todos los productos.
+<6> Acceder al parámetro de la URL `id`.
+<7> Consulta para obtener un producto por ID.
+<8> Preparar la consulta para obtener un producto por ID.
+<9> Enlazar el ID del producto a la consulta.
+<10> Ejecutar la consulta.
+<11> Obtener el resultado de la consulta.
+<12> Obtener el producto por ID.
+<13> Endpoint para crear un nuevo producto.
+<14> Obtener los datos del cuerpo de la solicitud.
+<15> Obtener el nombre y el precio del producto.
+<16> Consulta para crear un nuevo producto.
+<17> Preparar la consulta para crear un nuevo producto.
+<18> Enlazar los valores a la consulta.
+<19> Ejecutar la consulta para crear un nuevo producto.
+<20> Endpoint para actualizar un producto.
+<21> Consulta para comprobar si el producto existe.
+<22> Preparar la consulta para comprobar si el producto existe.
+<23> Enlazar el ID del producto a la consulta.
+<24> Ejecutar la consulta.
+<25> Consulta para actualizar un producto.
+<26> Ejecutar la consulta para actualizar un producto.
+<27> Endpoint para eliminar un producto.
+<28> Consulta para comprobar si el producto existe.
+<29> Preparar la consulta para comprobar si el producto existe.
+<30> Enlazar el ID del producto a la consulta.
+<31> Ejecutar la consulta.
+<32> Consulta para eliminar un producto.
+<33> Ejecutar la consulta para eliminar un producto.
+<34> Middleware para interceptar rutas no definidas.
 
 En este archivo, se importa la conexión a la base de datos del archivo `db.php`, se definen los endpoints para obtener todos los productos, obtener un producto por ID, crear un nuevo producto, actualizar un producto existente y eliminar un producto. Se utilizan consultas preparadas para interactuar con la base de datos y se manejan los casos en los que no se encuentran productos o se producen errores. Además, se interceptan las rutas no definidas para devolver un mensaje de error con un código de estado `404 Not Found`.
 
