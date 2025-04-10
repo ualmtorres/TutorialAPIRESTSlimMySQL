@@ -1694,7 +1694,7 @@ function createJsonResponse(ResponseInterface $response, array $data): ResponseI
 }
 ----
 
-6. Creación del archivo de rutas genéricas. Contiene una ruta de test y otra para interceptar todas las rutas no definidas.
+6. Creación del archivo de rutas genéricas. Contiene una ruta para mostrar la documentación de la API, otra con un endpoint de test y otra para interceptar todas las rutas no definidas.
    * Crear un archivo https://gist.github.com/ualmtorres/7da7f20168363059add870ff1a040535[`generalRoutes.php`] en la carpeta `src/routes` con la configuración de las rutas de la API. En este caso, se define una ruta de prueba `/test` que devuelve un mensaje de éxito y otra ruta que intercepta todas las rutas no definidas y devuelve un mensaje de error con un código de estado `404 Not Found`.
 +
 [source,php]
@@ -1706,13 +1706,28 @@ use Psr\Http\Message\ResponseInterface;
 
 require_once dirname(__DIR__) . '/helpers/helpers.php';
 
-// Ruta test <1>
+// Rutas de documentación <1>
+$app->get('/[docs]', function (RequestInterface $request, ResponseInterface $response) {
+    // Cargar el archivo de documentación disponible en src/docs/api-docs.html
+    $filePath = __DIR__ . '/../docs/api-docs.html';
+    if (file_exists($filePath)) {
+        $response->getBody()->write(file_get_contents($filePath));
+        return $response->withHeader('Content-Type', 'text/html; charset=utf-8');
+    } else {
+        return createJsonResponse($response->withStatus(404), [
+            'status' => 404,
+            'message' => 'Documentation not found'
+        ]);
+    }
+});
+
+// Ruta test <2>
 $app->get('/test', function (RequestInterface $request, ResponseInterface $response, array $args) {
     $data = ['status' => 200, 'message' => 'Test route'];
     return createJsonResponse($response, $data);
 });
 
-// Interceptar todas las rutas no definidas <2>
+// Interceptar todas las rutas no definidas <3>
 $app->any('{routes:.+}', function (RequestInterface $request, ResponseInterface $response) {
     $data = [
         'status' => 404,
@@ -1721,10 +1736,13 @@ $app->any('{routes:.+}', function (RequestInterface $request, ResponseInterface 
     return createJsonResponse($response->withStatus(404), $data);
 });
 ----
-<1> La ruta `/test` devuelve un mensaje de éxito con el código de estado `200 OK`. Esta ruta se utiliza para probar la API y asegurarse de que está funcionando correctamente.
-<2> La ruta que intercepta todas las rutas no definidas devuelve un mensaje de error con el código de estado `404 Not Found`. Esta ruta se utiliza para manejar las solicitudes a rutas que no están definidas en la API.
+<1> Las rutas `/` y `/docs` devuelven el archivo de documentación de la API. Esta ruta se utiliza para mostrar la documentación de la API y se puede acceder a ella a través del navegador o utilizando una herramienta como Postman.
+<2> La ruta `/test` devuelve un mensaje de éxito con el código de estado `200 OK`. Esta ruta se utiliza para probar la API y asegurarse de que está funcionando correctamente.
+<3> La ruta que intercepta todas las rutas no definidas devuelve un mensaje de error con el código de estado `404 Not Found`. Esta ruta se utiliza para manejar las solicitudes a rutas que no están definidas en la API.
 
-7. Creación del archivo `index.php` en la carpeta `public`
+7. Creación del archivo de documentación de la API
+   * Crear un archivo https://gist.github.com/ualmtorres/074554fd33fbcb71b6603ff51e9ab489[`api-docs.html`] en la carpeta `src/docs` con la documentación de la API. En este caso, se incluye una descripción de la API y ejemplos de las rutas disponibles.
+8. Creación del archivo `index.php` en la carpeta `public`
    * Crear un archivo https://gist.github.com/ualmtorres/3a1916c48fc758ad9817bea8e944c6c0[`index.php`] en la carpeta `public` con la configuración de la API. En este caso, se carga el autoload de Composer, se carga el archivo de configuración de la base de datos y se definen las rutas de la API. Por ahora, sólo se carga el archivo de rutas `generalRoutes.php` que contiene la ruta de prueba y la ruta que intercepta todas las rutas no definidas.
 +
 [source,php]
@@ -1752,7 +1770,7 @@ $app->run();
 <2> Cargar las rutas desde un archivo separado. En este caso, se carga el archivo `generalRoutes.php` que contiene la ruta de prueba y la ruta que intercepta todas las rutas no definidas.
 <3> Ejecutar la aplicación Slim para iniciar el servidor y procesar las solicitudes.
 
-Llegados a este punto, podríamos probar la API accediendo a la ruta de prueba `/test` en el navegador o utilizando una herramienta como Postman. La API debería devolver un mensaje de éxito con el código de estado `200 OK`. 
+Llegados a este punto, podríamos probar la API accediendo a la ruta de prueba `/test` en el navegador o utilizando una herramienta como Postman. La API debería devolver un mensaje de éxito con el código de estado `200 OK`.
 
 [source,json]
 ----
@@ -1771,6 +1789,11 @@ Si se accede a una ruta no definida (p.e. `/foo`), la API debería devolver un m
     "message": "Route not found"
 }
 ----
+
+La documentación de la API se puede acceder a través de las rutas `/´ y `/docs`. La figura siguiente muestra la documentación de la API en el navegador.
+
+image::images/slim-api-docs.png[]
+
 
 #### Desarrollo de la API REST
 

@@ -2979,7 +2979,7 @@ function createJsonResponse(ResponseInterface $response, array $data): ResponseI
 </div>
 </li>
 <li>
-<p>Creación del archivo de rutas genéricas. Contiene una ruta de test y otra para interceptar todas las rutas no definidas.</p>
+<p>Creación del archivo de rutas genéricas. Contiene una ruta para mostrar la documentación de la API, otra con un endpoint de test y otra para interceptar todas las rutas no definidas.</p>
 <div class="ulist">
 <ul>
 <li>
@@ -2993,13 +2993,28 @@ use Psr\Http\Message\ResponseInterface;
 
 require_once dirname(__DIR__) . '/helpers/helpers.php';
 
-// Ruta test <i class="conum" data-value="1"></i><b>(1)</b>
+// Rutas de documentación <i class="conum" data-value="1"></i><b>(1)</b>
+$app-&gt;get('/[docs]', function (RequestInterface $request, ResponseInterface $response) {
+    // Cargar el archivo de documentación disponible en src/docs/api-docs.html
+    $filePath = __DIR__ . '/../docs/api-docs.html';
+    if (file_exists($filePath)) {
+        $response-&gt;getBody()-&gt;write(file_get_contents($filePath));
+        return $response-&gt;withHeader('Content-Type', 'text/html; charset=utf-8');
+    } else {
+        return createJsonResponse($response-&gt;withStatus(404), [
+            'status' =&gt; 404,
+            'message' =&gt; 'Documentation not found'
+        ]);
+    }
+});
+
+// Ruta test <i class="conum" data-value="2"></i><b>(2)</b>
 $app-&gt;get('/test', function (RequestInterface $request, ResponseInterface $response, array $args) {
     $data = ['status' =&gt; 200, 'message' =&gt; 'Test route'];
     return createJsonResponse($response, $data);
 });
 
-// Interceptar todas las rutas no definidas <i class="conum" data-value="2"></i><b>(2)</b>
+// Interceptar todas las rutas no definidas <i class="conum" data-value="3"></i><b>(3)</b>
 $app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterface $response) {
     $data = [
         'status' =&gt; 404,
@@ -3013,14 +3028,28 @@ $app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterfa
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>La ruta <code>/test</code> devuelve un mensaje de éxito con el código de estado <code>200 OK</code>. Esta ruta se utiliza para probar la API y asegurarse de que está funcionando correctamente.</td>
+<td>Las rutas <code>/</code> y <code>/docs</code> devuelven el archivo de documentación de la API. Esta ruta se utiliza para mostrar la documentación de la API y se puede acceder a ella a través del navegador o utilizando una herramienta como Postman.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>La ruta <code>/test</code> devuelve un mensaje de éxito con el código de estado <code>200 OK</code>. Esta ruta se utiliza para probar la API y asegurarse de que está funcionando correctamente.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
 <td>La ruta que intercepta todas las rutas no definidas devuelve un mensaje de error con el código de estado <code>404 Not Found</code>. Esta ruta se utiliza para manejar las solicitudes a rutas que no están definidas en la API.</td>
 </tr>
 </table>
 </div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Creación del archivo de documentación de la API</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear un archivo <a href="https://gist.github.com/ualmtorres/074554fd33fbcb71b6603ff51e9ab489"><code>api-docs.html</code></a> en la carpeta <code>src/docs</code> con la documentación de la API. En este caso, se incluye una descripción de la API y ejemplos de las rutas disponibles.</p>
 </li>
 </ul>
 </div>
@@ -3095,6 +3124,14 @@ $app-&gt;run();</code></pre>
     "status": 404,
     "message": "Route not found"
 }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>La documentación de la API se puede acceder a través de las rutas <code>/´ y `/docs</code>. La figura siguiente muestra la documentación de la API en el navegador.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/slim-api-docs.png" alt="slim api docs">
 </div>
 </div>
 </div>
@@ -3847,7 +3884,7 @@ $app-&gt;run();</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-10 17:38:06 +0200
+Last updated 2025-04-10 18:41:13 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
