@@ -450,10 +450,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_introducción">1. Introducción</a></li>
 <li><a href="#_configuración_del_entorno_de_desarrollo">2. Configuración del entorno de desarrollo</a>
 <ul class="sectlevel2">
-<li><a href="#_instalación_de_xampp">2.1. Instalación de XAMPP</a></li>
+<li><a href="#_instalación_de_xampp">2.1. Instalación de XAMPP</a>
+<ul class="sectlevel3">
+<li><a href="#_configuración_de_apache">2.1.1. Configuración de Apache</a></li>
+<li><a href="#_comprobación_de_la_instalación">2.1.2. Comprobación de la instalación</a></li>
+<li><a href="#_comprendiendo_el_funcionamiento_de_la_plaforma_y_la_carpeta_de_publicación">2.1.3. Comprendiendo el funcionamiento de la plaforma y la carpeta de publicación</a></li>
+<li><a href="#_creación_de_un_archivo_php">2.1.4. Creación de un archivo PHP</a></li>
+</ul>
+</li>
 <li><a href="#_instalación_de_composer">2.2. Instalación de Composer</a></li>
 <li><a href="#_herramientas_para_pruebas_de_apis">2.3. Herramientas para pruebas de APIs</a></li>
-<li><a href="#_instalación_de_slim_framework">2.4. Instalación de Slim Framework</a></li>
+<li><a href="#_instalación_de_slim_framework">2.4. Instalación de Slim Framework</a>
+<ul class="sectlevel3">
+<li><a href="#_configuración_general_de_apache_para_slim">2.4.1. Configuración general de Apache para Slim</a></li>
+<li><a href="#_proceso_de_instalación_de_slim">2.4.2. Proceso de instalación de Slim</a></li>
+<li><a href="#_configuración_de_apache_en_la_aplicación">2.4.3. Configuración de Apache en la aplicación</a></li>
+<li><a href="#_creación_de_una_ruta_de_prueba">2.4.4. Creación de una ruta de prueba</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_desarrollo_básico_en_php">3. Desarrollo básico en PHP</a>
@@ -471,7 +485,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_api_y_api_rest">4.1. API y API REST</a></li>
 <li><a href="#_métodos_http_get_post_put_delete">4.2. Métodos HTTP (GET, POST, PUT, DELETE)</a></li>
 <li><a href="#_formatos_de_intercambio_de_datos_json_xml">4.3. Formatos de intercambio de datos (JSON, XML)</a></li>
-<li><a href="#_especificación_de_los_endpoints_de_una_api">4.4. Especificación de los endpoints de una API</a></li>
+<li><a href="#_especificación_de_los_endpoints_de_una_api">4.4. Especificación de los endpoints de una API</a>
+<ul class="sectlevel3">
+<li><a href="#_paso_de_parámetros_en_la_url">4.4.1. Paso de parámetros en la URL</a></li>
+<li><a href="#_envío_de_datos_en_peticiones_post_y_put">4.4.2. Envío de datos en peticiones POST y PUT</a></li>
+<li><a href="#_respuestas_de_la_api">4.4.3. Respuestas de la API</a></li>
+<li><a href="#_ejemplo_de_endpoints_de_una_api_restful">4.4.4. Ejemplo de endpoints de una API RESTful</a></li>
+</ul>
+</li>
 <li><a href="#_cabeceras_content_type_authorization">4.5. Cabeceras (Content-Type, Authorization)</a></li>
 </ul>
 </li>
@@ -495,8 +516,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_mysqli_una_extensión_de_php_para_interactuar_con_mysql">6.1. <code>mysqli</code>, una extensión de PHP para interactuar con MySQL</a></li>
 <li><a href="#_configuración_de_la_base_de_datos">6.2. Configuración de la base de datos</a></li>
-<li><a href="#_creación_de_una_api_rest_con_slim_y_mysql">6.3. Creación de una API REST con Slim y MySQL</a></li>
-<li><a href="#_pruebas_de_la_api_rest">6.4. Pruebas de la API REST</a></li>
+<li><a href="#_creación_de_la_estructura_del_proyecto">6.3. Creación de la estructura del proyecto</a></li>
+<li><a href="#_creación_de_una_api_rest_con_slim_y_mysql">6.4. Creación de una API REST con Slim y MySQL</a>
+<ul class="sectlevel3">
+<li><a href="#_configuración_de_la_api">6.4.1. Configuración de la API</a></li>
+<li><a href="#_desarrollo_de_la_api_rest">6.4.2. Desarrollo de la API REST</a></li>
+<li><a href="#_resumen_de_la_implementación">6.4.3. Resumen de la implementación</a></li>
+</ul>
+</li>
+<li><a href="#_pruebas_de_uso_de_la_api_rest">6.5. Pruebas de uso de la API REST</a></li>
 </ul>
 </li>
 <li><a href="#_resumen_2">7. Resumen</a></li>
@@ -518,7 +546,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_resumen">Resumen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>En este tutorial se muestra cómo desarrollar una API REST básica para realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre una base de datos MySQL con Slim Framework utilizando XAMPP como entorno de desarrollo. Con fines didácticos, primero se creará una API REST sencilla con Slim Framework pero sin usar una base de datos. Posteriormente, se configurará una base de datos MySQL y se adaptará la API para permitir la interacción con la base de datos. También se explica cómo instalar XAMPP en Windows y cómo configurar Apache para interpretar las rutas de Slim. Además, se realiza una introducción básica a PHP mediante ejemplos de operaciones básicas, control de flujo, funciones, funciones de devolución de llamada, uso de arrays, etc. Asimismo, se muestran herramientas para pruebas de APIs, como Postman, y cómo configurar el entorno.</p>
+<p>En este tutorial se muestra cómo desarrollar una API REST básica para realizar operaciones CRUD (Crear, Leer, Actualizar y Eliminar) sobre una base de datos MySQL con Slim Framework utilizando XAMPP como entorno de desarrollo. Con fines didácticos, primero se creará una API REST sencilla con Slim Framework pero sin usar una base de datos. Posteriormente, se configurará una base de datos MySQL y se adaptará la API para permitir la interacción con la base de datos, organizando el código siguiendo el patrón MVC (Modelo-Vista-Controlador) con una clara separación entre modelos, controladores y rutas. Se explica también cómo instalar XAMPP en Windows y cómo configurar Apache para interpretar las rutas de Slim. Además, se realiza una introducción básica a PHP mediante ejemplos de operaciones básicas, control de flujo, funciones, funciones de devolución de llamada, uso de arrays, etc. Asimismo, se muestran herramientas para pruebas de APIs, como Postman, y cómo configurar el entorno, incluyendo buenas prácticas de organización de código y estructura de directorios para un desarrollo mantenible y escalable.</p>
 </div>
 <div class="ulist">
 <div class="title">Objetivos</div>
@@ -553,7 +581,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>el <a href="https://github.com/ualmtorres/sample-rest-api" target="_blank" rel="noopener">repositorio</a> usado en este tutorial.</p>
 </li>
 <li>
-<p><a href="https://github.com/ualmtorres/slim-base-rest-api.gitπ" target="_blank" rel="noopener">repositorio</a> con proyecto base. Sólo contiene la configuración de Slim y una ruta de ejemplo.</p>
+<p><a href="https://github.com/ualmtorres/slim-base-rest-api.git" target="_blank" rel="noopener">repositorio</a> con proyecto base. Sólo contiene la configuración de Slim y una ruta de ejemplo.</p>
 </li>
 </ul>
 </div>
@@ -2681,6 +2709,14 @@ $query-&gt;execute();</code></pre>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
+<p>Establecer la codificación de caracteres a <code>utf8mb4</code> para garantizar la compatibilidad con caracteres especiales.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-sql hljs" data-lang="sql">SET NAMES utf8mb4;</code></pre>
+</div>
+</div>
+</li>
+<li>
 <p>Crear una base de datos MySQL llamada <code>sample_api</code>.</p>
 <div class="listingblock">
 <div class="content">
@@ -2735,7 +2771,42 @@ INSERT INTO product (name, price) VALUES ('Product 3', 30.99);</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_creación_de_una_api_rest_con_slim_y_mysql">6.3. Creación de una API REST con Slim y MySQL</h3>
+<h3 id="_creación_de_la_estructura_del_proyecto">6.3. Creación de la estructura del proyecto</h3>
+<div class="paragraph">
+<p>Para facilitar el desarrollo y el mantenimiento del proyecto se recomienda seguir una estructura en la que estén separados los bloques de código de los modelos, controladores y rutas. Los modelos son responsables de interactuar con la base de datos y definir la estructura de los datos. Los controladores son responsables de manejar la lógica de negocio y las rutas son responsables de definir las URL y los métodos HTTP que se utilizarán para acceder a los recursos.</p>
+</div>
+<div class="paragraph">
+<p>Organizaremos el código principalmente de esta forma: en la carpeta raíz dejaremos los archivos de configuración y conexión a la base de datos. En la raíz habrá una carpeta <code>src</code> que contendrá el código de la API con los controladores, modelos, rutas y funciones auxiliares, todos ellos organizados en carpetas. En la raíz también habrá otra carpeta <code>public</code> que contendrá el archivo <code>index.php</code> y los archivos estáticos (CSS, JavaScript, imágenes, etc.). La estructura del proyecto quedará de la siguiente manera:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">sample-rest-api/
+├── composer.json
+├── .htaccess
+├── config.php
+├── db.php
+├── public/
+|   ├── .htaccess
+│   └── index.php
+├── src/
+│   ├── controllers/
+│   │   └── ProductController.php
+│   ├── models/
+│   │   └── Product.php
+│   ├── helpers/
+│   │   └── helpers.php
+│   └── routes/
+│       └── product.php</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creación_de_una_api_rest_con_slim_y_mysql">6.4. Creación de una API REST con Slim y MySQL</h3>
+<div class="paragraph">
+<p>Este apartado lo vamos a dividir en dos. El primero está dedicado a configurar las bases de la API, como son archivos de configuración, conexión a la base de datos, estructura del proyecto y endpoints básicos. En el segundo se desarrollará la API REST con Slim y MySQL.</p>
+</div>
+<div class="sect3">
+<h4 id="_configuración_de_la_api">6.4.1. Configuración de la API</h4>
 <div class="paragraph">
 <p>A continuación se detallan los pasos a seguir para crear una API REST con Slim y MySQL:</p>
 </div>
@@ -2807,54 +2878,91 @@ return $mysqli;</code></pre>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Establecer la conexión a la base de datos MySQL y devolver la conexión para que pueda ser utilizada en otros archivos.</td>
+<td>Establecer la conexión a la base de datos MySQL y devolver la conexión para que pueda ser utilizada en otros archivos.
+<div class="paragraph">
+<p>En este archivo, se importa la configuración de la base de datos del archivo <code>config.php</code>, se establece la conexión a la base de datos MySQL y se devuelve la conexión para que pueda ser utilizada en otros archivos.</p>
+</div></td>
 </tr>
 </table>
 </div>
 </li>
-</ol>
-</div>
-<div class="paragraph">
-<p>En este archivo, se importa la configuración de la base de datos del archivo <code>config.php</code>, se establece la conexión a la base de datos MySQL y se devuelve la conexión para que pueda ser utilizada en otros archivos.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
 <li>
-<p>Crear un archivo <a href="https://gist.github.com/ualmtorres/cf74c3a24cd5122e0c8528198f93bc56"><code>index.php</code></a> en la carpeta <code>public</code> con la API REST que interactúa con la base de datos:</p>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Si ya existe un archivo <code>index.php</code> en la carpeta <code>public</code> de ejemplos anteriores, los renombraremos para dejar libre el nombre de archivo <code>index.php</code> para el archivo principal de la API REST con MySQL. La configuración definida en los archivos <code>.htaccess</code> dirige todo el tráfico a un archivo <code>index.php</code> en la carpeta <code>public</code>, por lo que es importante que el archivo principal de la API tenga este nombre.</p>
+<p>Crear la estructura de carpetas</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear una carpeta <code>src</code> en la raíz del proyecto (<code>sample-rest-api</code>) que contendrá el código de la API.</p>
+</li>
+<li>
+<p>Dentro de la carpeta <code>src</code>, crear las siguientes carpetas:</p>
+</li>
+<li>
+<p><code>controllers</code>: Contendrá los controladores de la API.</p>
+</li>
+<li>
+<p><code>models</code>: Contendrá los modelos de la API.</p>
+</li>
+<li>
+<p><code>helpers</code>: Contendrá las funciones auxiliares de la API.</p>
+</li>
+<li>
+<p><code>routes</code>: Contendrá las rutas de la API.</p>
+</li>
+<li>
+<p>Crear una carpeta <code>public</code> en la raíz del proyecto (<code>sample-rest-api</code>) que contendrá el archivo <code>index.php</code> y los archivos estáticos (CSS, JavaScript, imágenes, etc.).</p>
+</li>
+</ul>
 </div>
-</td>
-</tr>
-</table>
+</li>
+<li>
+<p>Creación de los archivos <code>.htaccess</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear un archivo <a href="https://gist.github.com/ualmtorres/814feeddb87b1febbff372a8638ed3cc"><code>.htaccess</code></a> en la raíz del proyecto (<code>sample-rest-api</code>) con la configuración de reescritura de URL para redirigir todas las solicitudes a la carpeta <code>public</code>:
++</p>
+</li>
+</ul>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre>RewriteEngine on
+RewriteRule ^$ public/ [L]
+RewriteRule (.*) public/$1 [L]</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear un archivo <a href="https://gist.github.com/ualmtorres/a70a5da2bd877d19fb46f62be99fccc4"><code>.htaccess</code></a> en la carpeta <code>public</code> con la configuración de reescritura de URL para redirigir todas las solicitudes a <code>index.php</code>:
++</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]</pre>
+</div>
+</div>
+</li>
+<li>
+<p>Creación del archivos de utilidades</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear un archivo <a href="https://gist.github.com/ualmtorres/bfb2cfc59b1062696cd52c7fc6e5962f"><code>helpers.php</code></a> en la carpeta <code>src/helpers</code> con las funciones auxiliares que se utilizarán en la API. En este caso, la función auxiliar <code>createJsonResponse</code> se utiliza para crear una respuesta JSON con el código de estado y los datos proporcionados.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
 
-require dirname(__DIR__) . '/vendor/autoload.php';
-require dirname(__DIR__) . '/db.php'; <i class="conum" data-value="1"></i><b>(1)</b>
-
-
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Factory\AppFactory;
-
-// Crear la aplicación
-$app = AppFactory::create();
-
-// Configurar Slim para procesar datos JSON
-$app-&gt;addBodyParsingMiddleware(); <i class="conum" data-value="2"></i><b>(2)</b>
 
 // Helper function to handle the response
-function createJsonResponse(ResponseInterface $response, array $data): ResponseInterface { <i class="conum" data-value="3"></i><b>(3)</b>
+function createJsonResponse(ResponseInterface $response, array $data): ResponseInterface
+{
     // Set the response content type
     $response = $response-&gt;withHeader('Content-Type', 'application/json; charset=utf-8');
 
@@ -2863,21 +2971,265 @@ function createJsonResponse(ResponseInterface $response, array $data): ResponseI
 
     // Return the response
     return $response;
-}
+}</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Creación del archivo de rutas genéricas. Contiene una ruta de test y otra para interceptar todas las rutas no definidas.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear un archivo <a href="https://gist.github.com/ualmtorres/7da7f20168363059add870ff1a040535"><code>generalRoutes.php</code></a> en la carpeta <code>src/routes</code> con la configuración de las rutas de la API. En este caso, se define una ruta de prueba <code>/test</code> que devuelve un mensaje de éxito y otra ruta que intercepta todas las rutas no definidas y devuelve un mensaje de error con un código de estado <code>404 Not Found</code>.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
 
-$mysqli = new mysqli($host, $username, $password, $database); <i class="conum" data-value="4"></i><b>(4)</b>
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-if ($mysqli-&gt;connect_error) {
-    die('Connection failed: ' . $mysqli-&gt;connect_error);
-}
+require_once dirname(__DIR__) . '/helpers/helpers.php';
 
-// Ruta para obtener todos los productos
-$app-&gt;get('/product', function (RequestInterface $request, ResponseInterface $response, array $args) { <i class="conum" data-value="5"></i><b>(5)</b>
-    global $mysqli;
+// Ruta test <i class="conum" data-value="1"></i><b>(1)</b>
+$app-&gt;get('/test', function (RequestInterface $request, ResponseInterface $response, array $args) {
+    $data = ['status' =&gt; 200, 'message' =&gt; 'Test route'];
+    return createJsonResponse($response, $data);
+});
 
+// Interceptar todas las rutas no definidas <i class="conum" data-value="2"></i><b>(2)</b>
+$app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterface $response) {
+    $data = [
+        'status' =&gt; 404,
+        'message' =&gt; 'Route not found'
+    ];
+    return createJsonResponse($response-&gt;withStatus(404), $data);
+});</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>La ruta <code>/test</code> devuelve un mensaje de éxito con el código de estado <code>200 OK</code>. Esta ruta se utiliza para probar la API y asegurarse de que está funcionando correctamente.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>La ruta que intercepta todas las rutas no definidas devuelve un mensaje de error con el código de estado <code>404 Not Found</code>. Esta ruta se utiliza para manejar las solicitudes a rutas que no están definidas en la API.</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Creación del archivo <code>index.php</code> en la carpeta <code>public</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Crear un archivo <a href="https://gist.github.com/ualmtorres/3a1916c48fc758ad9817bea8e944c6c0"><code>index.php</code></a> en la carpeta <code>public</code> con la configuración de la API. En este caso, se carga el autoload de Composer, se carga el archivo de configuración de la base de datos y se definen las rutas de la API. Por ahora, sólo se carga el archivo de rutas <code>generalRoutes.php</code> que contiene la ruta de prueba y la ruta que intercepta todas las rutas no definidas.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__) . '/db.php'; <i class="conum" data-value="1"></i><b>(1)</b>
+
+use Slim\Factory\AppFactory;
+
+// Crear la aplicación
+$app = AppFactory::create();
+
+// Configurar Slim para procesar datos JSON
+$app-&gt;addBodyParsingMiddleware();
+
+// Cargar las rutas desde un archivo separado <i class="conum" data-value="2"></i><b>(2)</b>
+require dirname(__DIR__) . '/src/routes/generalRoutes.php';
+
+// Ejecutar la aplicación <i class="conum" data-value="3"></i><b>(3)</b>
+$app-&gt;run();</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Cargar el archivo de configuración de la base de datos para establecer la conexión a la base de datos MySQL.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Cargar las rutas desde un archivo separado. En este caso, se carga el archivo <code>generalRoutes.php</code> que contiene la ruta de prueba y la ruta que intercepta todas las rutas no definidas.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Ejecutar la aplicación Slim para iniciar el servidor y procesar las solicitudes.</td>
+</tr>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Llegados a este punto, podríamos probar la API accediendo a la ruta de prueba <code>/test</code> en el navegador o utilizando una herramienta como Postman. La API debería devolver un mensaje de éxito con el código de estado <code>200 OK</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "status": 200,
+    "message": "Test route"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Si se accede a una ruta no definida (p.e. <code>/foo</code>), la API debería devolver un mensaje de error con el código de estado <code>404 Not Found</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "status": 404,
+    "message": "Route not found"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_desarrollo_de_la_api_rest">6.4.2. Desarrollo de la API REST</h4>
+<div class="paragraph">
+<p>Una vez que hemos configurado la API y hemos creado la ruta de prueba, vamos a desarrollar la API REST con Slim y MySQL. Se trata de una API REST para gestión de productos. La API permite realizar operaciones CRUD (Create, Read, Update, Delete) sobre los productos. Como sólo hay un tipo de objetos, los productos, crearemos un archivo de modelo, un archivo de controlador y un archivo de rutas para los productos. A continuación se detallan los pasos a seguir para crear la API REST con Slim y MySQL:</p>
+</div>
+<div class="sect4">
+<h5 id="_creación_del_modelo_product">Creación del modelo <code>Product</code></h5>
+<div class="paragraph">
+<p>El modelo <code>Product</code> representa un producto en la base de datos. Define la estructura de los datos del producto y proporciona métodos de interés, como un método <code>toArray</code> para convertir el objeto <code>Product</code> en un array asociativo. Este método se utiliza para devolver los datos del producto en la respuesta JSON de la API. Para crearlo, se creará un archivo <a href="https://gist.github.com/ualmtorres/9719da387aa0ca4e936acc20c6ea5c97"><code>Product.php</code></a> en la carpeta <code>src/models</code> con la definición del modelo <code>Product</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
+
+namespace App\Models;
+
+class Product
+{
+    private $id;
+    private $name;
+    private $price;
+    private $created_at;
+    private $updated_at;
+
+    public function __construct($id, $name, $price, $created_at = null, $updated_at = null)
+    {
+        $this-&gt;id = $id;
+        $this-&gt;name = $name;
+        $this-&gt;price = $price;
+        $this-&gt;created_at = $created_at;
+        $this-&gt;updated_at = $updated_at;
+    }
+
+    // Method to convert object to array
+    public function toArray()
+    {
+        return [
+            'id' =&gt; $this-&gt;id,
+            'name' =&gt; $this-&gt;name,
+            'price' =&gt; $this-&gt;price,
+            'created_at' =&gt; $this-&gt;created_at,
+            'updated_at' =&gt; $this-&gt;updated_at
+        ];
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>El modelo <code>Product</code> tiene los siguientes atributos:
+* <code>id</code>: Identificador único del producto.
+* <code>name</code>: Nombre del producto.
+* <code>price</code>: Precio del producto.
+* <code>created_at</code>: Fecha de creación del producto.
+* <code>updated_at</code>: Fecha de actualización del producto.</p>
+</div>
+<div class="paragraph">
+<p>El constructor del modelo <code>Product</code> recibe los valores de los atributos y los asigna a las propiedades del objeto. El método <code>toArray</code> convierte el objeto <code>Product</code> en un array asociativo que se utiliza para devolver los datos del producto en la respuesta JSON de la API.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_creación_del_controlador_productcontroller">Creación del controlador <code>ProductController</code></h5>
+<div class="paragraph">
+<p>El controlador <code>ProductController</code> es responsable de manejar la lógica de negocio de la API. Define los métodos para manejar las operaciones CRUD (Create, Read, Update, Delete) de los productos. Cada método se encarga de procesar la solicitud, interactuar con la base de datos y devolver la respuesta JSON correspondiente. Para crearlo, se creará un archivo <a href="https://gist.github.com/ualmtorres/e27492fe9cd765b3f6eb9568d84b4399"><code>ProductController.php</code></a> en la carpeta <code>src/controllers</code> con la definición del controlador <code>ProductController</code>. A comtinuación se van desarrollando progresivamente los métodos del controlador <code>ProductController</code> para manejar las operaciones CRUD de los productos.</p>
+</div>
+<div class="paragraph">
+<p>Comenzamos con la implementación del controlador <code>ProductController</code> y la definición de los métodos para manejar las operaciones CRUD de los productos. En este caso, se definen los métodos <code>getAllProducts</code>, <code>getProductById</code>, <code>createProduct</code>, <code>updateProduct</code> y <code>deleteProduct</code>. Estos métodos se encargarán de procesar las solicitudes y devolver las respuestas JSON correspondientes. Todos los métodos pertenecen a la clase <code>ProductController</code> y utilizan la conexión a la base de datos establecida en el archivo <code>db.php</code>. A continuación se muestra el código del controlador <code>ProductController</code> con la definición de los métodos para manejar las operaciones CRUD de los productos:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
+
+namespace App\Controllers;
+
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use App\Models\Product;
+
+require_once dirname(__DIR__) . '/helpers/helpers.php';
+require_once dirname(__DIR__) . '/models/Product.php';
+
+class ProductController
+{
+    private $mysqli;
+
+    public function __construct($mysqli)
+    {
+        $this-&gt;mysqli = $mysqli;
+    }
+
+    public function getAllProducts(RequestInterface $request, ResponseInterface $response, array $args)
+    {
+        // TBD: Implementar la lógica para obtener todos los productos de la base de datos
+    }
+
+    public function getProductById(RequestInterface $request, ResponseInterface $response, array $args)
+    {
+        // TBD: Implementar la lógica para obtener un producto por ID de la base de datos
+    }
+
+    public function createProduct(RequestInterface $request, ResponseInterface $response, array $args)
+    {
+        // TBD: Implementar la lógica para crear un nuevo producto en la base de datos
+    }
+
+    public function updateProduct(RequestInterface $request, ResponseInterface $response, array $args)
+    {
+        // TBD: Implementar la lógica para actualizar un producto existente en la base de datos
+    }
+
+    public function deleteProduct(RequestInterface $request, ResponseInterface $response, array $args)
+    {
+        // TBD: Implementar la lógica para eliminar un producto de la base de datos
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Para cada uno de los métodos del controlador <code>ProductController</code> se implementará la lógica para manejar las operaciones CRUD de los productos. A continuación se va mostrando uno a uno los métodos del controlador <code>ProductController</code> con la implementación de la lógica para manejar las operaciones CRUD de los productos.</p>
+</div>
+<div class="paragraph">
+<p><strong>Método <code>getAllProducts</code></strong></p>
+</div>
+<div class="paragraph">
+<p>El método <code>getAllProducts</code> se encarga de obtener todos los productos de la base de datos. Realiza una consulta SQL para recuperar todos los productos y devuelve la lista de productos en formato JSON. A continuación se muestra el código del método <code>getAllProducts</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">public function getAllProducts(RequestInterface $request, ResponseInterface $response, array $args)
+{
     // Consulta para obtener todos los productos
     $query = 'SELECT * FROM product';
-    $stmt = $mysqli-&gt;prepare($query);
+    $stmt = $this-&gt;mysqli-&gt;prepare($query);
     $stmt-&gt;execute();
     $result = $stmt-&gt;get_result();
 
@@ -2885,125 +3237,205 @@ $app-&gt;get('/product', function (RequestInterface $request, ResponseInterface 
     if ($result-&gt;num_rows &gt; 0) {
         $products = [];
         while ($row = $result-&gt;fetch_assoc()) {
-            $products[] = $row;
+            $product = new Product($row['id'], $row['name'], $row['price'], $row['created_at'], $row['updated_at']);
+
+            $products[] = $product-&gt;toArray();
         }
 
         // Establecer los datos de la respuesta
-        $data = [
+        return createJsonResponse($response, [
             'status' =&gt; 200,
             'result' =&gt; $products
-        ];
+        ]);
     } else {
         // Establecer los datos de la respuesta
-        $data = [
+        return createJsonResponse($response, [
             'status' =&gt; 204,
             'message' =&gt; 'No products found'
-        ];
+        ]);
     }
-
-    // Devolver la respuesta utilizando la función auxiliar
-    return createJsonResponse($response, $data);
-});
-
-// Ruta para obtener un producto por ID
-$app-&gt;get('/product/{id}', function (RequestInterface $request, ResponseInterface $response, array $args) {
-    global $mysqli;
-
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En este método se realiza una consulta SQL para obtener todos los productos de la tabla <code>product</code>. Si se encuentran productos, se recorren los resultados y se crean objetos <code>Product</code> para cada producto. Luego, se convierten los objetos <code>Product</code> en arrays asociativos utilizando el método <code>toArray</code> y se devuelven en la respuesta JSON. Si no se encuentran productos, se devuelve un mensaje de error con el código de estado <code>404 Not Found</code>.</p>
+</div>
+<div class="paragraph">
+<p>El método usa los siguientes métodos de la clase <code>mysqli</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mysqli::prepare</code>: Para preparar la consulta SQL.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::execute</code>: Para ejecutar la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::get_result</code>: Para obtener el resultado de la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_result::num_rows</code>: Para comprobar si se encontraron productos en la consulta.</p>
+</li>
+<li>
+<p><code>mysqli_result::fetch_assoc</code>: Para obtener las filas del resultado como arrays asociativos.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Método <code>getProductById</code></strong></p>
+</div>
+<div class="paragraph">
+<p>El método <code>getProductById</code> se encarga de obtener un producto por su ID. Realiza una consulta SQL para recuperar el producto con el ID especificado y devuelve el producto en formato JSON. A continuación se muestra el código del método <code>getProductById</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">public function getProductById(RequestInterface $request, ResponseInterface $response, array $args)
+{
     // Obtener el ID del producto
-    $productId = $args['id']; <i class="conum" data-value="6"></i><b>(6)</b>
+    $productId = $args['id'];
 
     // Consulta para obtener un producto por ID
-    $query = "SELECT * FROM product WHERE id = ?"; <i class="conum" data-value="7"></i><b>(7)</b>
-    $stmt = $mysqli-&gt;prepare($query); <i class="conum" data-value="8"></i><b>(8)</b>
-    $stmt-&gt;bind_param('i', $productId); <i class="conum" data-value="9"></i><b>(9)</b>
-    $stmt-&gt;execute(); <i class="conum" data-value="10"></i><b>(10)</b>
-    $result = $stmt-&gt;get_result(); <i class="conum" data-value="11"></i><b>(11)</b>
+    $query = "SELECT * FROM product WHERE id = ?";
+    $stmt = $this-&gt;mysqli-&gt;prepare($query);
+    $stmt-&gt;bind_param('i', $productId);
+    $stmt-&gt;execute();
+    $result = $stmt-&gt;get_result();
 
     // Comprobar si hay un producto
     if ($result-&gt;num_rows &gt; 0) {
-        $product = $result-&gt;fetch_assoc(); <i class="conum" data-value="12"></i><b>(12)</b>
-
+        $row = $result-&gt;fetch_assoc();
+        $product = new Product($row['id'], $row['name'], $row['price'], $row['created_at'], $row['updated_at']);
         // Establecer los datos de la respuesta
-        $data = [
+        return createJsonResponse($response, [
             'status' =&gt; 200,
-            'result' =&gt; $product
-        ];
+            'result' =&gt; $product-&gt;toArray()
+        ]);
     } else {
         // Establecer los datos de la respuesta
-        $data = [
+        return createJsonResponse($response, [
             'status' =&gt; 204,
             'message' =&gt; 'Product not found'
-        ];
+        ]);
     }
 
     // Devolver la respuesta utilizando la función auxiliar
     return createJsonResponse($response, $data);
-});
-
-// Ruta para crear un nuevo producto
-$app-&gt;post('/product', function (RequestInterface $request, ResponseInterface $response, array $args) { <i class="conum" data-value="13"></i><b>(13)</b>
-    global $mysqli;
-
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En este método se realiza una consulta SQL para obtener el producto con el ID especificado. Se utiliza una consulta preparada para evitar la inyección de SQL. Si se encuentra el producto, se crea un objeto <code>Product</code> y se devuelve en la respuesta JSON. Si no se encuentra el producto, se devuelve un mensaje de error con el código de estado <code>404 Not Found</code>. La obtención del ID se realiza a partir de los argumentos de la solicitud.</p>
+</div>
+<div class="paragraph">
+<p>El método usa los siguientes métodos de la clase <code>mysqli</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mysqli::prepare</code>: Para preparar la consulta SQL con un marcador de posición <code>?</code> para el ID del producto.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::bind_param</code>: Para enlazar el ID del producto a la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::execute</code>: Para ejecutar la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::get_result</code>: Para obtener el resultado de la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_result::num_rows</code>: Para comprobar si se encontró el producto en la consulta.</p>
+</li>
+<li>
+<p><code>mysqli_result::fetch_assoc</code>: Para obtener la fila del resultado como un array asociativo.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Método <code>createProduct</code></strong></p>
+</div>
+<div class="paragraph">
+<p>El método <code>createProduct</code> se encarga de crear un nuevo producto en la base de datos. Recibe los datos del producto en el cuerpo de la solicitud y realiza una consulta SQL para insertar el nuevo producto en la tabla <code>product</code>. A continuación se muestra el código del método <code>createProduct</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">public function createProduct(RequestInterface $request, ResponseInterface $response, array $args)
+{
     // Obtener el cuerpo de la solicitud
-    $body = $request-&gt;getParsedBody(); <i class="conum" data-value="14"></i><b>(14)</b>
+    $body = $request-&gt;getParsedBody();
 
     // Crear un nuevo producto
-    $name = $body['name']; <i class="conum" data-value="15"></i><b>(15)</b>
+    $name = $body['name'];
     $price = $body['price'];
     $createdAt = date('Y-m-d H:i:s');
     $updatedAt = date('Y-m-d H:i:s');
 
     // Consulta para crear un nuevo producto
-    $query = "INSERT INTO product (name, price, created_at, updated_at) VALUES (?, ?, ?, ?)"; <i class="conum" data-value="16"></i><b>(16)</b>
-    $stmt = $mysqli-&gt;prepare($query); <i class="conum" data-value="17"></i><b>(17)</b>
-    $stmt-&gt;bind_param('sdss', $name, $price, $createdAt, $updatedAt); <i class="conum" data-value="18"></i><b>(18)</b>
-    $result = $stmt-&gt;execute(); <i class="conum" data-value="19"></i><b>(19)</b>
+    $query = "INSERT INTO product (name, price, created_at, updated_at) VALUES (?, ?, ?, ?)";
+    $stmt = $this-&gt;mysqli-&gt;prepare($query);
+    $stmt-&gt;bind_param('sdss', $name, $price, $createdAt, $updatedAt);
+    $result = $stmt-&gt;execute();
 
     // Comprobar si se ha creado el producto
     if ($result) {
         // Obtener el ID del producto creado
-        $productId = $mysqli-&gt;insert_id;
+        $productId = $this-&gt;mysqli-&gt;insert_id;
 
-        // Consulta para obtener el producto creado
-        $query = "SELECT * FROM product WHERE id = ?";
-        $stmt = $mysqli-&gt;prepare($query);
-        $stmt-&gt;bind_param('i', $productId);
-        $stmt-&gt;execute();
-        $result = $stmt-&gt;get_result();
-
-        // Comprobar si se ha obtenido el producto
-        if ($result-&gt;num_rows &gt; 0) {
-            $product = $result-&gt;fetch_assoc();
-
-            // Establecer los datos de la respuesta
-            $data = [
-                'status' =&gt; 201,
-                'message' =&gt; 'Product created successfully',
-                'result' =&gt; $product
-            ];
-        } else {
-            // Establecer los datos de la respuesta
-            $data = [
-                'status' =&gt; 204,
-                'message' =&gt; 'Product not found'
-            ];
-        }
+        // Devolver el producto creado
+        return createJsonResponse($response, [
+            'status' =&gt; 201,
+            'message' =&gt; 'Product created successfully',
+            'result' =&gt; [
+                'id' =&gt; $productId,
+                'name' =&gt; $name,
+                'price' =&gt; $price,
+                'created_at' =&gt; $createdAt,
+                'updated_at' =&gt; $updatedAt
+            ]
+        ]);
     } else {
         // Establecer los datos de la respuesta
-        $data = [
+        return createJsonResponse($response, [
             'status' =&gt; 400,
             'message' =&gt; 'Error creating product'
-        ];
+        ]);
     }
-
-    // Devolver la respuesta utilizando la función auxiliar
-    return createJsonResponse($response, $data);
-});
-
-// Ruta para actualizar un producto
-$app-&gt;put('/product/{id}', function (RequestInterface $request, ResponseInterface $response, array $args) { <i class="conum" data-value="20"></i><b>(20)</b>
-    global $mysqli;
-
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En este método se obtiene el cuerpo de la solicitud y se extraen los datos del nuevo producto. Se utiliza una consulta preparada para insertar el nuevo producto en la tabla <code>product</code>. Si se crea el producto con éxito, se devuelve un mensaje de éxito con el código de estado <code>201 Created</code> y los datos del producto creado. Si ocurre un error al crear el producto, se devuelve un mensaje de error con el código de estado <code>400 Bad Request</code>.</p>
+</div>
+<div class="paragraph">
+<p>El método usa los siguientes métodos de la clase <code>mysqli</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mysqli::prepare</code>: Para preparar la consulta SQL con marcadores de posición <code>?</code> para los datos del producto.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::bind_param</code>: Para enlazar los datos del producto a la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::execute</code>: Para ejecutar la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli::insert_id</code>: Para obtener el ID del producto creado.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Método <code>updateProduct</code></strong></p>
+</div>
+<div class="paragraph">
+<p>El método <code>updateProduct</code> se encarga de actualizar un producto existente en la base de datos. Recibe el ID del producto en la URL y los datos del producto en el cuerpo de la solicitud. Realiza una consulta SQL para actualizar el producto en la tabla <code>product</code>. A continuación se muestra el código del método <code>updateProduct</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">public function updateProduct(RequestInterface $request, ResponseInterface $response, array $args)
+{
     // Obtener el ID del producto
     $productId = $args['id'];
 
@@ -3011,10 +3443,10 @@ $app-&gt;put('/product/{id}', function (RequestInterface $request, ResponseInter
     $body = $request-&gt;getParsedBody();
 
     // Comprobar si el producto existe
-    $query = "SELECT * FROM product WHERE id = ?"; <i class="conum" data-value="21"></i><b>(21)</b>
-    $stmt = $mysqli-&gt;prepare($query); <i class="conum" data-value="22"></i><b>(22)</b>
-    $stmt-&gt;bind_param('i', $productId); <i class="conum" data-value="23"></i><b>(23)</b>
-    $stmt-&gt;execute(); <i class="conum" data-value="24"></i><b>(24)</b>
+    $query = "SELECT * FROM product WHERE id = ?";
+    $stmt = $this-&gt;mysqli-&gt;prepare($query);
+    $stmt-&gt;bind_param('i', $productId);
+    $stmt-&gt;execute();
     $result = $stmt-&gt;get_result();
 
     if ($result-&gt;num_rows &gt; 0) {
@@ -3027,265 +3459,282 @@ $app-&gt;put('/product/{id}', function (RequestInterface $request, ResponseInter
         $updatedAt = date('Y-m-d H:i:s');
 
         // Update the product. COALESCE is used to keep the existing value if the new value is NULL
-        $query = "UPDATE product SET name = COALESCE(?, name), price = COALESCE(?, price), updated_at = ? WHERE id = ?"; <i class="conum" data-value="25"></i><b>(25)</b>
-        $stmt = $mysqli-&gt;prepare($query);
+        $query = "UPDATE product SET name = COALESCE(?, name), price = COALESCE(?, price), updated_at = ? WHERE id = ?";
+        $stmt = $this-&gt;mysqli-&gt;prepare($query);
         $stmt-&gt;bind_param('sdsi', $name, $price, $updatedAt, $productId);
-        $result = $stmt-&gt;execute(); <i class="conum" data-value="26"></i><b>(26)</b>
+        $result = $stmt-&gt;execute();
 
         // Comprobar si se ha actualizado el producto
         if ($result) {
             // Consulta para obtener el producto actualizado
             $query = "SELECT * FROM product WHERE id = ?";
-            $stmt = $mysqli-&gt;prepare($query);
+            $stmt = $this-&gt;mysqli-&gt;prepare($query);
             $stmt-&gt;bind_param('i', $productId);
             $stmt-&gt;execute();
             $result = $stmt-&gt;get_result();
-
-            // Comprobar si se ha obtenido el producto
-            if ($result-&gt;num_rows &gt; 0) {
-                $product = $result-&gt;fetch_assoc();
-
-                // Establecer los datos de la respuesta
-                $data = [
-                    'status' =&gt; 200,
-                    'message' =&gt; 'Product updated successfully',
-                    'result' =&gt; $product
-                ];
-            } else {
-                // Establecer los datos de la respuesta
-                $data = [
-                    'status' =&gt; 204,
-                    'message' =&gt; 'Product not found'
-                ];
-            }
+            $row = $result-&gt;fetch_assoc();
+            $product = new Product($row['id'], $row['name'], $row['price'], $row['created_at'], $row['updated_at']);
+            // Devolver el producto actualizado
+            return createJsonResponse($response, [
+                'status' =&gt; 200,
+                'message' =&gt; 'Product updated successfully',
+                'result' =&gt; $product-&gt;toArray()
+            ]);
         } else {
             // Establecer los datos de la respuesta
-            $data = [
+            return createJsonResponse($response, [
                 'status' =&gt; 400,
                 'message' =&gt; 'Error updating product'
-            ];
+            ]);
         }
     } else {
         // Establecer los datos de la respuesta
-        $data = [
+        return createJsonResponse($response, [
             'status' =&gt; 204,
             'message' =&gt; 'Product not found'
-        ];
+        ]);
     }
-
-    // Devolver la respuesta utilizando la función auxiliar
-    return createJsonResponse($response, $data);
-});
-
-// Ruta para eliminar un producto
-$app-&gt;delete('/product/{id}', function (RequestInterface $request, ResponseInterface $response, array $args) { <i class="conum" data-value="27"></i><b>(27)</b>
-    global $mysqli;
-
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En este método se obtiene el ID del producto de la URL y se comprueba si el producto existe en la base de datos. Si el producto existe, se actualizan los datos del producto utilizando una consulta preparada. Se utiliza la función <code>COALESCE</code> para mantener el valor existente si el nuevo valor es <code>NULL</code>. Si se actualiza el producto con éxito, se devuelve un mensaje de éxito con el código de estado <code>200 OK</code> y los datos del producto actualizado. Si ocurre un error al actualizar el producto, se devuelve un mensaje de error con el código de estado <code>400 Bad Request</code>. Si no se encuentra el producto, se devuelve un mensaje de error con el código de estado <code>404 Not Found</code>.</p>
+</div>
+<div class="paragraph">
+<p>El método usa los siguientes métodos de la clase <code>mysqli</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mysqli::prepare</code>: Para preparar la consulta SQL con marcadores de posición <code>?</code> para los datos del producto.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::bind_param</code>: Para enlazar los datos del producto a la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::execute</code>: Para ejecutar la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::get_result</code>: Para obtener el resultado de la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_result::num_rows</code>: Para comprobar si se encontró el producto en la consulta.</p>
+</li>
+<li>
+<p><code>mysqli_result::fetch_assoc</code>: Para obtener la fila del resultado como un array asociativo.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Método <code>deleteProduct</code></strong></p>
+</div>
+<div class="paragraph">
+<p>El método <code>deleteProduct</code> se encarga de eliminar un producto de la base de datos. Recibe el ID del producto en la URL y realiza una consulta SQL para eliminar el producto de la tabla <code>product</code>. A continuación se muestra el código del método <code>deleteProduct</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">public function deleteProduct(RequestInterface $request, ResponseInterface $response, array $args)
+{
     // Obtener el ID del producto
     $productId = $args['id'];
 
     // Comprobar si el producto existe
-    $query = "SELECT * FROM product WHERE id = ?"; <i class="conum" data-value="28"></i><b>(28)</b>
-    $stmt = $mysqli-&gt;prepare($query); <i class="conum" data-value="29"></i><b>(29)</b>
-    $stmt-&gt;bind_param('i', $productId); <i class="conum" data-value="30"></i><b>(30)</b>
-    $stmt-&gt;execute(); <i class="conum" data-value="31"></i><b>(31)</b>
+    $query = "SELECT * FROM product WHERE id = ?";
+    $stmt = $this-&gt;mysqli-&gt;prepare($query);
+    $stmt-&gt;bind_param('i', $productId);
+    $stmt-&gt;execute();
     $result = $stmt-&gt;get_result();
 
     if ($result-&gt;num_rows &gt; 0) {
         // Eliminar el producto
-        $query = "DELETE FROM product WHERE id = ?"; <i class="conum" data-value="32"></i><b>(32)</b>
-        $stmt = $mysqli-&gt;prepare($query);
+        $query = "DELETE FROM product WHERE id = ?";
+        $stmt = $this-&gt;mysqli-&gt;prepare($query);
         $stmt-&gt;bind_param('i', $productId);
-        $result = $stmt-&gt;execute(); <i class="conum" data-value="33"></i><b>(33)</b>
+        $result = $stmt-&gt;execute();
 
         // Comprobar si se ha eliminado el producto
         if ($result) {
             // Establecer los datos de la respuesta
-            $data = [
+            return createJsonResponse($response, [
                 'status' =&gt; 200,
                 'message' =&gt; 'Product deleted successfully'
-            ];
+            ]);
         } else {
             // Establecer los datos de la respuesta
-            $data = [
+            return createJsonResponse($response, [
                 'status' =&gt; 400,
                 'message' =&gt; 'Error deleting product'
-            ];
+            ]);
         }
     } else {
         // Establecer los datos de la respuesta
-        $data = [
+        return createJsonResponse($response, [
             'status' =&gt; 204,
             'message' =&gt; 'Product not found'
-        ];
+        ]);
     }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En este método se obtiene el ID del producto de la URL y se comprueba si el producto existe en la base de datos. Si el producto existe, se elimina utilizando una consulta preparada. Si se elimina el producto con éxito, se devuelve un mensaje de éxito con el código de estado <code>200 OK</code>. Si ocurre un error al eliminar el producto, se devuelve un mensaje de error con el código de estado <code>400 Bad Request</code>. Si no se encuentra el producto, se devuelve un mensaje de error con el código de estado <code>404 Not Found</code>.</p>
+</div>
+<div class="paragraph">
+<p>El método usa los siguientes métodos de la clase <code>mysqli</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mysqli::prepare</code>: Para preparar la consulta SQL con un marcador de posición <code>?</code> para el ID del producto.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::bind_param</code>: Para enlazar el ID del producto a la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::execute</code>: Para ejecutar la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_stmt::get_result</code>: Para obtener el resultado de la consulta preparada.</p>
+</li>
+<li>
+<p><code>mysqli_result::num_rows</code>: Para comprobar si se encontró el producto en la consulta.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_creación_de_las_rutas_productroutes_php">Creación de las rutas <code>productRoutes.php</code></h5>
+<div class="paragraph">
+<p>A continuación se crea el archivo <a href="https://gist.github.com/ualmtorres/a35cca6ce60f770e39176b0e100b7c57"><code>productRoutes.php</code></a> en la carpeta <code>src/routes</code> con la configuración de las rutas de la API para los productos. En este caso, se definen las rutas para obtener todos los productos, obtener un producto por ID, crear un nuevo producto, actualizar un producto existente y eliminar un producto. Cada ruta está asociada a un método del controlador <code>ProductController</code> que maneja la lógica de negocio correspondiente.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
 
-    // Devolver la respuesta utilizando la función auxiliar
-    return createJsonResponse($response, $data);
-});
+use App\Controllers\ProductController;
+use Slim\Routing\RouteCollectorProxy;
 
-// Interceptar todas las rutas no definidas
-$app-&gt;any('{routes:.+}', function (RequestInterface $request, ResponseInterface $response) { <i class="conum" data-value="34"></i><b>(34)</b>
-    $data = [
-        'status' =&gt; 404,
-        'message' =&gt; 'Route not found'
-    ];
-    return createJsonResponse($response-&gt;withStatus(404), $data);
-});
+// Crear instancia del controlador
+$productController = new ProductController($GLOBALS['mysqli']);
+
+$app-&gt;group('/products', function (RouteCollectorProxy $group) use ($productController) {
+    // Ruta para obtener todos los productos
+    $group-&gt;get('', [$productController, 'getAllProducts']);
+
+    // Ruta para obtener un producto por ID
+    $group-&gt;get('/{id}', [$productController, 'getProductById']);
+
+    // Ruta para crear un nuevo producto
+    $group-&gt;post('', [$productController, 'createProduct']);
+
+    // Ruta para actualizar un producto por ID
+    $group-&gt;put('/{id}', [$productController, 'updateProduct']);
+
+    // Ruta para eliminar un producto por ID
+    $group-&gt;delete('/{id}', [$productController, 'deleteProduct']);
+});</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>En este archivo se definen las rutas para los productos utilizando el método <code>group</code> de Slim. El método <code>group</code> permite agrupar rutas relacionadas bajo un prefijo común. En este caso, todas las rutas están agrupadas bajo el prefijo <code>/products</code>. Cada ruta está asociada a un método del controlador <code>ProductController</code> que maneja la lógica de negocio correspondiente. Las rutas son las siguientes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>GET /products</code>: Obtener la lista de todos los productos.</p>
+</li>
+<li>
+<p><code>GET /products/{id}</code>: Obtener un producto por ID.</p>
+</li>
+<li>
+<p><code>POST /products</code>: Crear un nuevo producto.</p>
+</li>
+<li>
+<p><code>PUT /products/{id}</code>: Actualizar un producto existente por ID.</p>
+</li>
+<li>
+<p><code>DELETE /products/{id}</code>: Eliminar un producto por ID.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_carga_de_las_rutas_de_productos_en_index_php">Carga de las rutas de productos en <code>index.php</code></h5>
+<div class="paragraph">
+<p>A continuación se carga el archivo de rutas <code>productRoutes.php</code> en el archivo <a href="https://gist.github.com/ualmtorres/c2afd1842131ec1a90b641c3297ebd9d"><code>index.php</code></a> para que las rutas de productos estén disponibles en la API. Se añade la siguiente línea antes de las rutas generales para evitar conflictos de rutas:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-php hljs" data-lang="php">&lt;?php
+
+require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__) . '/db.php';
+
+use Slim\Factory\AppFactory;
+
+// Crear la aplicación
+$app = AppFactory::create();
+
+// Configurar Slim para procesar datos JSON
+$app-&gt;addBodyParsingMiddleware();
+
+// Cargar las rutas desde un archivo separado
+require dirname(__DIR__) . '/src/routes/productRoutes.php';
+require dirname(__DIR__) . '/src/routes/generalRoutes.php';
 
 // Ejecutar la aplicación
 $app-&gt;run();</code></pre>
 </div>
 </div>
-<div class="colist arabic">
-<table>
-<tr>
-<td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Importar la conexión a la base de datos del archivo <code>db.php</code>.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Configurar Slim para procesar datos JSON.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Función auxiliar para manejar la respuesta de la API.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>Establecer la conexión a la base de datos MySQL.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="5"></i><b>5</b></td>
-<td>Endpoint para obtener todos los productos.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="6"></i><b>6</b></td>
-<td>Acceder al parámetro de la URL <code>id</code>.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="7"></i><b>7</b></td>
-<td>Consulta para obtener un producto por ID.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="8"></i><b>8</b></td>
-<td>Preparar la consulta para obtener un producto por ID.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="9"></i><b>9</b></td>
-<td>Enlazar el ID del producto a la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="10"></i><b>10</b></td>
-<td>Ejecutar la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="11"></i><b>11</b></td>
-<td>Obtener el resultado de la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="12"></i><b>12</b></td>
-<td>Obtener el producto por ID.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="13"></i><b>13</b></td>
-<td>Endpoint para crear un nuevo producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="14"></i><b>14</b></td>
-<td>Obtener los datos del cuerpo de la solicitud.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="15"></i><b>15</b></td>
-<td>Obtener el nombre y el precio del producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="16"></i><b>16</b></td>
-<td>Consulta para crear un nuevo producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="17"></i><b>17</b></td>
-<td>Preparar la consulta para crear un nuevo producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="18"></i><b>18</b></td>
-<td>Enlazar los valores a la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="19"></i><b>19</b></td>
-<td>Ejecutar la consulta para crear un nuevo producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="20"></i><b>20</b></td>
-<td>Endpoint para actualizar un producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="21"></i><b>21</b></td>
-<td>Consulta para comprobar si el producto existe.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="22"></i><b>22</b></td>
-<td>Preparar la consulta para comprobar si el producto existe.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="23"></i><b>23</b></td>
-<td>Enlazar el ID del producto a la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="24"></i><b>24</b></td>
-<td>Ejecutar la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="25"></i><b>25</b></td>
-<td>Consulta para actualizar un producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="26"></i><b>26</b></td>
-<td>Ejecutar la consulta para actualizar un producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="27"></i><b>27</b></td>
-<td>Endpoint para eliminar un producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="28"></i><b>28</b></td>
-<td>Consulta para comprobar si el producto existe.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="29"></i><b>29</b></td>
-<td>Preparar la consulta para comprobar si el producto existe.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="30"></i><b>30</b></td>
-<td>Enlazar el ID del producto a la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="31"></i><b>31</b></td>
-<td>Ejecutar la consulta.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="32"></i><b>32</b></td>
-<td>Consulta para eliminar un producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="33"></i><b>33</b></td>
-<td>Ejecutar la consulta para eliminar un producto.</td>
-</tr>
-<tr>
-<td><i class="conum" data-value="34"></i><b>34</b></td>
-<td>Middleware para interceptar rutas no definidas.</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>En este archivo se carga el archivo de rutas <code>productRoutes.php</code> antes de las rutas generales para que las rutas de productos estén disponibles en la API. Esto permite que la API maneje las solicitudes a las rutas de productos y ejecute los métodos correspondientes del controlador <code>ProductController</code>.</p>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_resumen_de_la_implementación">6.4.3. Resumen de la implementación</h4>
+<div class="paragraph">
+<p>Con la implementación anterior, hemos conseguido una API REST bien estructurada y mantenible gracias a la separación de responsabilidades. Esta separación se ha logrado mediante:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Modelos</strong>: El modelo <code>Product</code> encapsula la estructura y comportamiento de los productos. Define los atributos y el método <code>toArray</code> para la serialización a JSON.</p>
 </li>
-</ol>
+<li>
+<p><strong>Controladores</strong>: El <code>ProductController</code> maneja toda la lógica de negocio y las operaciones con la base de datos. Cada método del controlador (<code>getAllProducts</code>, <code>getProductById</code>, etc.) se encarga de una operación específica, manteniendo el código organizado y fácil de mantener.</p>
+</li>
+<li>
+<p><strong>Rutas</strong>: Las rutas en <code>productRoutes.php</code> definen los endpoints de la API y los asocian con los métodos del controlador correspondiente. Esto permite tener una visión clara de los endpoints disponibles y su funcionalidad.</p>
+</li>
+<li>
+<p><strong>Helpers</strong>: Las funciones auxiliares como <code>createJsonResponse</code> se mantienen en archivos separados, permitiendo su reutilización en diferentes partes de la aplicación y manteniendo el código DRY (Don&#8217;t Repeat Yourself).</p>
+</li>
+</ul>
 </div>
 <div class="paragraph">
-<p>En este archivo, se importa la conexión a la base de datos del archivo <code>db.php</code>, se definen los endpoints para obtener todos los productos, obtener un producto por ID, crear un nuevo producto, actualizar un producto existente y eliminar un producto. Se utilizan consultas preparadas para interactuar con la base de datos y se manejan los casos en los que no se encuentran productos o se producen errores. Además, se interceptan las rutas no definidas para devolver un mensaje de error con un código de estado <code>404 Not Found</code>.</p>
+<p>Esta arquitectura proporciona varias ventajas:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Mantenibilidad</strong>: El código está organizado de manera lógica y es fácil de entender y modificar.</p>
+</li>
+<li>
+<p><strong>Reutilización</strong>: Los componentes pueden reutilizarse en diferentes partes de la aplicación.</p>
+</li>
+<li>
+<p><strong>Escalabilidad</strong>: Es fácil añadir nuevas funcionalidades sin afectar al código existente.</p>
+</li>
+<li>
+<p><strong>Testabilidad</strong>: La separación de responsabilidades facilita la escritura de pruebas unitarias.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_pruebas_de_la_api_rest">6.4. Pruebas de la API REST</h3>
+<h3 id="_pruebas_de_uso_de_la_api_rest">6.5. Pruebas de uso de la API REST</h3>
 <div class="paragraph">
 <p>Una vez que hemos desarrollado la API REST con Slim Framework, podemos probar los endpoints utilizando Postman. A continuación se detallan los pasos a seguir para probar la API REST:</p>
 </div>
@@ -3377,7 +3826,7 @@ $app-&gt;run();</code></pre>
 <p>Una API REST proporciona una interfaz para interactuar con una base de datos usando el protocolo HTTP. Este enfoque permite a los clientes acceder y manipular los datos de la base de datos de forma remota y de forma totalmente agnóstica a la tecnología subyacente.</p>
 </div>
 <div class="paragraph">
-<p>En este tutorial, hemos aprendido a desarrollar una API REST con Slim Framework utilizando PHP. Slim Framework es un microframework PHP que permite crear aplicaciones web y APIs de forma rápida y sencilla. Hemos creado una API REST básica con Slim Framework y luego hemos dado un paso más para desarrollar una API REST que interactúe con una base de datos MySQL. Hemos utilizado la extensión <code>mysqli</code> de PHP para interactuar con la base de datos MySQL y hemos configurado la base de datos para almacenar y gestionar una lista de productos. Hemos desarrollado una API REST con Slim y MySQL que permite realizar operaciones CRUD en la lista de productos, como obtener todos los productos, obtener un producto por ID, crear un nuevo producto, actualizar un producto existente y eliminar un producto. Además, hemos realizado sentencias preparadas para evitar la inyección de SQL para garantizar la seguridad de la base de datos. Finalmente, hemos probado la API REST utilizando una herramienta como Postman para verificar que funcione correctamente.</p>
+<p>En este tutorial, hemos aprendido a desarrollar una API REST con Slim Framework utilizando PHP. Slim Framework es un microframework PHP que permite crear aplicaciones web y APIs de forma rápida y sencilla. Hemos creado una API REST básica con Slim Framework y luego hemos dado un paso más para desarrollar una API REST que interactúe con una base de datos MySQL. Hemos utilizado la extensión <code>mysqli</code> de PHP para interactuar con la base de datos MySQL y hemos configurado la base de datos para almacenar y gestionar una lista de productos. Hemos desarrollado una API REST con Slim y MySQL que permite realizar operaciones CRUD en la lista de productos, como obtener todos los productos, obtener un producto por ID, crear un nuevo producto, actualizar un producto existente y eliminar un producto. Además, hemos realizado sentencias preparadas para evitar la inyección de SQL para garantizar la seguridad de la base de datos. También se ha mostrado cómo organizar el código siguiendo una estructura clara de modelos, controladores y rutas, lo que aporta ventajas como mayor mantenibilidad, reutilización de código, escalabilidad y facilidad para realizar pruebas. Finalmente, hemos probado la API REST utilizando una herramienta como Postman para verificar que funcione correctamente.</p>
 </div>
 </div>
 </div>
@@ -3398,7 +3847,7 @@ $app-&gt;run();</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-08 13:39:58 +0200
+Last updated 2025-04-10 17:38:06 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
