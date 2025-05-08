@@ -930,6 +930,9 @@ $app-&gt;get('/', function (RequestInterface $request, ResponseInterface $respon
     return $response;
 });
 
+// Set the base path for the application if ruuning with Apache
+$app-&gt;setBasePath('/sample-rest-api'); <i class="conum" data-value="2"></i><b>(2)</b>
+
 // Run the application
 $app-&gt;run();</code></pre>
 </div>
@@ -939,6 +942,25 @@ $app-&gt;run();</code></pre>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
 <td>Endpoint de prueba que devuelve un mensaje JSON.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Ruta base para el proyecto. Cambiar por el nombre de la carpeta del proyecto.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Si se usa Apache, se debe establecer la ruta base de la aplicación. Para ello, se debe modificar la línea <code>$app&#8594;setBasePath('/sample-rest-api');</code> por el nombre de la carpeta del proyecto. Por ejemplo, si el proyecto se encuentra en <code>C:\xampp\htdocs\mi-api</code>, se deberá cambiar por <code>$app&#8594;setBasePath('/mi-api');</code>.
+Si se usa el servidor embebido de Slim, no es necesario establecer la ruta base.</p>
+</div>
+</td>
 </tr>
 </table>
 </div>
@@ -3884,7 +3906,7 @@ $app-&gt;run();</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-04-10 18:41:13 +0200
+Last updated 2025-05-08 17:40:56 +0200
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

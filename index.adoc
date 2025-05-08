@@ -282,10 +282,20 @@ $app->get('/', function (RequestInterface $request, ResponseInterface $response,
     return $response;
 });
 
+// Set the base path for the application if ruuning with Apache
+$app->setBasePath('/sample-rest-api'); <2>
+
 // Run the application
 $app->run();
 ```
 <1> Endpoint de prueba que devuelve un mensaje JSON.
+<2> Ruta base para el proyecto. Cambiar por el nombre de la carpeta del proyecto.
+
+[WARNING]
+====
+Si se usa Apache, se debe establecer la ruta base de la aplicación. Para ello, se debe modificar la línea `$app->setBasePath('/sample-rest-api');` por el nombre de la carpeta del proyecto. Por ejemplo, si el proyecto se encuentra en `C:\xampp\htdocs\mi-api`, se deberá cambiar por `$app->setBasePath('/mi-api');`.
+Si se usa el servidor embebido de Slim, no es necesario establecer la ruta base.
+====
 
 Tras realizar estos cambios, al acceder a la ruta `http://localhost/sample-rest-api` desde un navegador se debería ver un mensaje JSON con el contenido `{"status":200,"message":"Hello from Slim"}`, donde `sample-rest-api` es el nombre de la carpeta donde se encuentra el proyecto. Si se ha cambiado el puerto de Apache o el nombre de la carpeta, se deberá acceder a la ruta correspondiente. Por ejemplo, si se ha cambiado el puerto a 8080 y el nombre de la carpeta es `mi-api`, se deberá acceder a la ruta `http://localhost:8080/mi-api`.
 
